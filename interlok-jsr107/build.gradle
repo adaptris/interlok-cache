@@ -1,0 +1,58 @@
+ext {
+  componentName='Interlok JSR107 Caching'
+}
+
+dependencies {
+  compile ("javax.cache:cache-api:1.1.0")
+  testCompile ("org.jsr107.ri:cache-ri-impl:1.1.0")
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task examplesJar(type: Jar, dependsOn: test) {
+    classifier = 'examples'
+    from new File(buildDir, '/examples')
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+artifacts {
+    archives javadocJar
+    archives examplesJar
+    archives sourcesJar
+}
+
+publishing {
+  publications {
+      mavenJava(MavenPublication) {
+          from components.java
+
+          artifact javadocJar { classifier "javadoc" }
+          artifact examplesJar { classifier "examples" }
+          artifact sourcesJar { classifier "sources" }
+          pom.withXml {
+            asNode().appendNode("description", "Using any JSR107 cache implementation as a cache provider within Interlok")
+            def properties = asNode().appendNode("properties")
+            properties.appendNode("target", "3.8.0+")
+            properties.appendNode("license", "false")
+            properties.appendNode("tags", "cache,jsr107")
+          }
+      }
+  }
+  repositories {
+    maven {
+      credentials {
+        username repoUsername
+        password repoPassword
+      }
+      url mavenPublishUrl
+    }
+  }
+}
