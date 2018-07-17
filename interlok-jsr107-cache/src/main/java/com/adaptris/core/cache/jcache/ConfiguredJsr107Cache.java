@@ -30,8 +30,49 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 })
 public class ConfiguredJsr107Cache extends Jsr107Cache {
 
+  private static final String EHCACHE3_PROVIDER = "org.ehcache.jsr107.EhcacheCachingProvider";
+  private static final String REDDISON_PROVIDER = "org.redisson.jcache.JCachingProvider";
+  private static final String IGNITE_PROVIDER = "org.apache.ignite.cache.CachingProvider";
+  private static final String REFERENCE_IMPLEMENTATION = "org.jsr107.ri.spi.RICachingProvider";
+  private static final String HAZELCAST_PROVIDER = "com.hazelcast.cache.HazelcastCachingProvider";
+
+  /**
+   * Caching provider classnames mapped against a friendly name.
+   */
+  public enum ProviderNames {
+    /**
+     * Friendly name for {@code org.ehcache.jsr107.EhcacheCachingProvider}
+     */
+    EHCACHE3(EHCACHE3_PROVIDER), 
+    /**
+     * Friendly name for {@code org.redisson.jcache.JCachingProvider}
+     */
+    REDIS(REDDISON_PROVIDER),
+    /**
+     * Friendly name for {@code org.redisson.jcache.JCachingProvider}
+     */
+    REDISSON(REDDISON_PROVIDER),
+    /**
+     * Friendly name for {@code org.jsr107.ri.spi.RICachingProvider}; the reference implementation
+     */
+    REFERENCE(REFERENCE_IMPLEMENTATION),
+    /**
+     * Friendly name for {@code org.apache.ignite.cache.CachingProvider}
+     */
+    IGNITE(IGNITE_PROVIDER),
+    /**
+     * Friendly name for {@code com.hazelcast.cache.HazelcastCachingProvider}
+     */
+    HAZELCAST(HAZELCAST_PROVIDER);    
+    private String myProviderClassname;
+    
+    ProviderNames(String classname) {
+      this.myProviderClassname = classname;
+    }
+  }
+
   @AdvancedConfig
-  @InputFieldHint(style = "BLANKABLE")
+  @InputFieldHint(style = "com.adaptris.core.cache.jcache.ConfiguredJsr107Cache.ProviderNames")
   private String cacheProviderClassname;
   @AdvancedConfig
   @InputFieldHint(style = "BLANKABLE")
@@ -47,7 +88,7 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
     CacheManager mgr = null;
     try {
       if (!StringUtils.isEmpty(getCacheProviderClassname())) {
-        provider = Caching.getCachingProvider(getCacheProviderClassname());
+        provider = Caching.getCachingProvider(getProviderClassname(getCacheProviderClassname()));
       } else {
         provider = Caching.getCachingProvider();
       }
@@ -74,10 +115,15 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
    * <ul>
    * <li>Redis (via Redisson {@code org.redisson:redisson:3.7.4} : org.redisson.jcache.JCachingProvider</li>
    * <li>Apache Ignite {@code org.apache.ignite:ignite-core:2.5.0} : org.apache.ignite.cache.CachingProvider</li>
+   * <li>ehcache3 (via Redisson {@code org.ehcache:ehcache:3.x.y} : org.ehcache.jsr107.EhcacheCachingProvider</li>
+   * <li>hazelcast ({@code com.hazelcast:hazelcast:x.y.z}) : com.hazelcast.cache.HazelcastCachingProvider</li>
+   * <li>You can also use the "friendly names" specified by {@link ConfiguredJsr107Cache.ProviderNames}</li>
    * </ul>
+   * If you're unsure what the provider classname is, then open the provider jar, and look at the contents of the file
+   * {@code META-INF/services/javax.cache.spi.CachingProvider}
    * </p>
    * 
-   * @param classname the full qualified class name; if not specified then {@link Caching#getCachingProvider()} will be used, which
+   * @param classname the fully qualified class name; if not specified then {@link Caching#getCachingProvider()} will be used, which
    *          could lead to unexpected results if multiple caching providers are available.
    */
   public void setCacheProviderClassname(String classname) {
@@ -106,5 +152,16 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
   public ConfiguredJsr107Cache withProviderClassname(String clazz) {
     setCacheProviderClassname(clazz);
     return this;
+  }
+
+  private static final String getProviderClassname(String s) {
+    String result = s;
+    for (ProviderNames f : ProviderNames.values()) {
+      if (f.name().equalsIgnoreCase(s)) {
+        result = f.myProviderClassname;
+        break;
+      }
+    }
+    return result;
   }
 }

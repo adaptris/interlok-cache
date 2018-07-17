@@ -21,6 +21,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("default-jsr107-event-listener")
 public class DefaultEventListener implements AllEventListener, Factory<CacheEntryListener<String, Object>> {
 
+  private static final long serialVersionUID = 2018071701L;
+
   private enum CacheNotification {
     PUT() {
       @Override

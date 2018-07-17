@@ -15,10 +15,9 @@ import com.adaptris.annotation.InputFieldDefault;
 import com.adaptris.core.CoreException;
 import com.adaptris.core.util.Args;
 import com.adaptris.core.util.ExceptionHelper;
-import com.adaptris.util.TimeInterval;
 
 /**
- * {@link com.adaptris.core.cache.Cache} implementation that wraps a JSR107/JCache caching provider.
+ * abstract {@link com.adaptris.core.cache.Cache} implementation that wraps a JSR107/JCache caching provider.
  * 
  */
 public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
@@ -126,8 +125,7 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
    * Set the cache name.
    * <p>
    * Set the cache name, if it does not exist then {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}
-   * will be used to create one with the associated {@link #setEventListener(DefaultEventListener)} and
-   * {@link #setExpiration(TimeInterval)}
+   * will be used to create along with any configuration specified by {@link #getNewCacheConfiguration()}.
    * </p>
    * 
    * @param name
@@ -140,6 +138,12 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
     return newCacheConfiguration;
   }
 
+  /**
+   * Set any configuration that needs to be applied to be caches that are created via
+   * {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}.
+   * 
+   * @param newConfig any new configuration; default is null.
+   */
   public void setNewCacheConfiguration(NewCacheConfiguration newConfig) {
     this.newCacheConfiguration = newConfig;
   }

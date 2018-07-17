@@ -24,6 +24,13 @@ public class Configuredsr107CacheTest extends Jsr107CacheCase {
   }
 
   @Test
+  public void testCache_FriendlyProvider() throws Exception {
+    ConfiguredJsr107Cache cache = createCacheInstance(true);
+    cache.withProviderClassname(ConfiguredJsr107Cache.ProviderNames.REFERENCE.name());
+    standardTests(cache);
+  }
+
+  @Test
   public void testCache_ProviderWithURI() throws Exception {
     ConfiguredJsr107Cache cache = createCacheInstance(true);
     cache.withConfigurationUrl("http://localhost/mycache");

@@ -8,7 +8,7 @@ import com.adaptris.core.CoreException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
- * Basic {@link com.adaptris.core.cache.Cache} implementation that uses JSR107 defaults.
+ * {@link com.adaptris.core.cache.Cache} implementation that uses JSR107 defaults.
  * <p>
  * Note that if you have multiple JSR107 providers available, then this might have unexpected behaviours; generally you should use
  * {@link ConfiguredJsr107Cache} instead.
