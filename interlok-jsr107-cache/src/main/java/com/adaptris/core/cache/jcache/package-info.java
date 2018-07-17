@@ -13,9 +13,9 @@
  * <li>Redis (via Redisson {@code org.redisson:redisson:x.y.z}) : org.redisson.jcache.JCachingProvider</li>
  * <li>Apache Ignite ({@code org.apache.ignite:ignite-core:x.y.z}) : org.apache.ignite.cache.CachingProvider</li>
  * <li>ehcache3 ({@code org.ehcache:ehcache:3.x.y}) : org.ehcache.jsr107.EhcacheCachingProvider</li>
- * <li>hazelcast ({@code com.hazelcast:hazelcast:x.y.z}) : com.hazelcast.cache.HazelcastCachingProvider</li>
+ * <li>Hazelcast ({@code com.hazelcast:hazelcast:x.y.z}) : com.hazelcast.cache.HazelcastCachingProvider</li>
+ * <li>Infinispan ({@code org.infinispan:infinispan-jcache:x.y.z}) : org.infinispan.jcache.embedded.JCachingProvider</li>
  * </p>
- *
  * <img alt="UML" src="package.svg"/>
  */
 package com.adaptris.core.cache.jcache;

@@ -35,6 +35,7 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
   private static final String IGNITE_PROVIDER = "org.apache.ignite.cache.CachingProvider";
   private static final String REFERENCE_IMPLEMENTATION = "org.jsr107.ri.spi.RICachingProvider";
   private static final String HAZELCAST_PROVIDER = "com.hazelcast.cache.HazelcastCachingProvider";
+  private static final String INFINISPAN_PROVIDER = "org.infinispan.jcache.embedded.JCachingProvider";
 
   /**
    * Caching provider classnames mapped against a friendly name.
@@ -60,6 +61,10 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
      * Friendly name for {@code org.apache.ignite.cache.CachingProvider}
      */
     IGNITE(IGNITE_PROVIDER),
+    /**
+     * Friendly name for {@code org.infinispan.jcache.embedded.JCachingProvider}
+     */
+    INFINISPAN(INFINISPAN_PROVIDER),
     /**
      * Friendly name for {@code com.hazelcast.cache.HazelcastCachingProvider}
      */
