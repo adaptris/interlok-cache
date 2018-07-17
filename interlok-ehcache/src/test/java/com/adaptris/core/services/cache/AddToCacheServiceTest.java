@@ -1,23 +1,29 @@
 package com.adaptris.core.services.cache;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
 
+import org.junit.Test;
+
 import com.adaptris.core.AdaptrisMessage;
+import com.adaptris.core.AdaptrisMessageFactory;
 import com.adaptris.core.MetadataElement;
 import com.adaptris.core.cache.ehcache.DefaultEhcache;
 import com.adaptris.core.jms.JmsConstants;
 import com.adaptris.core.services.cache.translators.JmsReplyToCacheValueTranslator;
 import com.adaptris.core.services.cache.translators.MetadataCacheValueTranslator;
-import com.adaptris.core.services.cache.translators.ObjectMetadataCacheValueTranslator;
-import com.adaptris.core.services.cache.translators.StringPayloadCacheTranslator;
-import com.adaptris.core.services.cache.translators.XpathCacheValueTranslator;
+import com.adaptris.core.util.LifecycleHelper;
+import com.adaptris.util.TimeInterval;
 
-public class AddToCacheServiceTest extends CacheServiceBaseCase {
+public class AddToCacheServiceTest {
   private static final String QUEUE_NAME = "TempReplyQueue";
   private static final String CORRELATION_ID = "12345ABCDE";
 
@@ -25,6 +31,7 @@ public class AddToCacheServiceTest extends CacheServiceBaseCase {
   private static final String SRC_VALUE = "srcValue";
 
 
+  @Test
   public void testDoService_CacheManagerShutdown() throws Exception {
     AdaptrisMessage msg1 = createMessage("Hello World", Arrays.asList(new MetadataElement[]
     {
@@ -45,10 +52,10 @@ public class AddToCacheServiceTest extends CacheServiceBaseCase {
 
       service1.setEnforceSerializable(false);
       service2.setEnforceSerializable(false);
-      start(service1);
-      start(service2);
+      LifecycleHelper.initAndStart(service1);
+      LifecycleHelper.initAndStart(service2);
       service1.doService(msg1);
-      stop(service1);
+      LifecycleHelper.stopAndClose(service1);
       // At this point the "singleton" ehcache Manager is shutdown; service2 doService should be fine.
       service2.doService(msg2);
       Object value = cache2.get("ABCDEFG");
@@ -56,17 +63,13 @@ public class AddToCacheServiceTest extends CacheServiceBaseCase {
       assertEquals(QUEUE_NAME, ((Queue) value).getQueueName());
     }
     finally {
-      stop(service1);
-      stop(service2);
+      LifecycleHelper.stopAndClose(service1);
+      LifecycleHelper.stopAndClose(service2);
     }
   }
 
-  protected AddToCacheService createService() {
-    return new AddToCacheService();
-  }
-
   private AddToCacheService createServiceForTests() {
-    AddToCacheService service = createService();
+    AddToCacheService service = new AddToCacheService();
     CacheEntryEvaluator eval = new CacheEntryEvaluator();
 
     eval.setKeyTranslator(new MetadataCacheValueTranslator("JMSCorrelationID"));
@@ -76,41 +79,11 @@ public class AddToCacheServiceTest extends CacheServiceBaseCase {
     return service;
   }
 
-  @Override
-  protected AddToCacheService createServiceForExamples() {
-    AddToCacheService service = new AddToCacheService();
-    CacheEntryEvaluator eval1 = new CacheEntryEvaluator();
-    CacheEntryEvaluator eval2 = new CacheEntryEvaluator();
-    CacheEntryEvaluator eval3 = new CacheEntryEvaluator();
-    CacheEntryEvaluator eval4 = new CacheEntryEvaluator();
-    CacheEntryEvaluator eval5 = new CacheEntryEvaluator();
-
-    eval1.setKeyTranslator(new MetadataCacheValueTranslator("A_MetadataKey_Whose_Value_Makes_The_Cache_Key"));
-    eval1.setValueTranslator(new MetadataCacheValueTranslator("Another_MetadataKey_Whose_Value_Makes_The_Cache_CacheValue"));
-
-    eval2.setKeyTranslator(new MetadataCacheValueTranslator("A_MetadataKey_Whose_Value_Makes_The_Cache_Key"));
-    eval2.setValueTranslator(new StringPayloadCacheTranslator());
-
-    eval3.setKeyTranslator(new MetadataCacheValueTranslator("A_MetadataKey_Whose_Value_Makes_The_Cache_Key"));
-    eval3.setValueTranslator(new XpathCacheValueTranslator("/some/xpath/value"));
-
-    eval4.setKeyTranslator(new MetadataCacheValueTranslator("JMSCorrelationID"));
-    eval4.setValueTranslator(new JmsReplyToCacheValueTranslator());
-
-    eval5.setKeyTranslator(new MetadataCacheValueTranslator("A_MetadataKey_Whose_Value_Makes_The_Cache_Key"));
-    eval5.setValueTranslator(new ObjectMetadataCacheValueTranslator(JmsConstants.OBJ_JMS_REPLY_TO_KEY));
-
-    service.setCacheEntryEvaluators(new ArrayList(Arrays.asList(new CacheEntryEvaluator[]
-    {
-        eval1, eval2, eval3, eval4, eval5
-    })));
-
-    return service;
-  }
-
-  @Override
   protected AdaptrisMessage createMessage(String payload, Collection<MetadataElement> metadata) {
-    AdaptrisMessage msg = super.createMessage(payload, metadata);
+    AdaptrisMessage msg = AdaptrisMessageFactory.getDefaultInstance().newMessage(payload);
+    for (MetadataElement element : metadata) {
+      msg.addMetadata(element);
+    }
     msg.getObjectHeaders().put(JmsConstants.OBJ_JMS_REPLY_TO_KEY, new Queue() {
       @Override
       public String getQueueName() throws JMSException {
@@ -120,4 +93,14 @@ public class AddToCacheServiceTest extends CacheServiceBaseCase {
     return msg;
   }
 
+  protected DefaultEhcache createCacheInstanceForTests() {
+    DefaultEhcache cache = new DefaultEhcache();
+    cache.setCacheCleanupInterval(new TimeInterval(5L, TimeUnit.SECONDS));
+    cache.setCacheName(UUID.randomUUID().toString());
+    cache.setEvictionPolicy(DefaultEhcache.MemoryStoreEvictionPolicy.LRU);
+    cache.setMaxElementsInMemory(10);
+    cache.setTimeToIdle(new TimeInterval(5L, TimeUnit.SECONDS));
+    cache.setTimeToLive(new TimeInterval(3L, TimeUnit.SECONDS));
+    return cache;
+  }
 }
