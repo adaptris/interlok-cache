@@ -3,7 +3,7 @@ ext {
 }
 
 dependencies {
-  compile ("net.sf.ehcache:ehcache-core:2.6.11") {
+  compile ("net.sf.ehcache:ehcache:2.10.5") {
     transitive = false
   }
 }
@@ -29,7 +29,7 @@ artifacts {
     archives examplesJar
     archives sourcesJar
 }
-
+  
 publishing {
   publications {
       mavenJava(MavenPublication) {
@@ -39,7 +39,7 @@ publishing {
           artifact examplesJar { classifier "examples" }
           artifact sourcesJar { classifier "sources" }
           pom.withXml {
-            asNode().appendNode("description", "Using ehcache as a cache provider within Interlok")
+            asNode().appendNode("description", "Using ehcache2.x as a cache provider within Interlok")
             def properties = asNode().appendNode("properties")
             properties.appendNode("target", "3.8.0+")
             properties.appendNode("license", "false")
@@ -57,3 +57,5 @@ publishing {
     }
   }
 }
+
+javadoc.dependsOn umlJavadoc
