@@ -6,8 +6,9 @@ ext {
   repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'unknown'
   repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'unknown'
   defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
-  interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : 'https://development.adaptris.net/javadocs/latest/Interlok-API/'
-  interlokCommonJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : 'https://development.adaptris.net/javadocs/latest/Interlok-Common/'
+  javadocsBaseUrl = "https://development.adaptris.net/nexus/content/sites/javadocs/com/adaptris"
+  interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
+  interlokCommonJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
   slf4jVersion = '1.7.25'
 }
 
@@ -61,7 +62,7 @@ subprojects {
 
   configurations {
     javadoc {}
-    umlDoclet {}    
+    umlDoclet {}
     all*.exclude group: 'c3p0'
     all*.exclude group: 'commons-logging'
     all*.exclude group: 'javamail'
@@ -137,11 +138,11 @@ subprojects {
       }
     }
   }
-  
+
   task umlJavadoc(type: Javadoc) {
     group 'Documentation'
     description 'Build javadocs using plantuml + graphviz + umldoclet, if dot is available'
-  
+
     onlyIf {
       hasGraphViz()
     }
@@ -173,7 +174,7 @@ subprojects {
       options.addStringOption "umlIncludeProtectedInnerClasses","false"
       title= project.name
     }
-  }  
-      
+  }
+
   check.dependsOn jacocoTestReport
 }
