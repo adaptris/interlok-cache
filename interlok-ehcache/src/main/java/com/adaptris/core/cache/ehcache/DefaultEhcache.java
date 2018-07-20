@@ -28,6 +28,7 @@ import net.sf.ehcache.config.CacheConfiguration;
  */
 @XStreamAlias("default-ehcache")
 @DisplayOrder(order ={"cacheName", "evictionPolicy", "maxElementsInMemory"})
+@SuppressWarnings("unchecked")
 public class DefaultEhcache extends EhcacheCache {
 
   private Integer maxElementsInMemory;

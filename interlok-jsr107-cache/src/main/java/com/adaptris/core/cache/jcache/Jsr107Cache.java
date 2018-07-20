@@ -20,6 +20,7 @@ import com.adaptris.core.util.ExceptionHelper;
  * abstract {@link com.adaptris.core.cache.Cache} implementation that wraps a JSR107/JCache caching provider.
  * 
  */
+@SuppressWarnings("unchecked")
 public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
 
 

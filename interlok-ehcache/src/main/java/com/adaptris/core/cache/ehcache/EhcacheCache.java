@@ -48,6 +48,7 @@ import net.sf.ehcache.Status;
  * </p>
  * .
  */
+@SuppressWarnings("unchecked")
 public abstract class EhcacheCache implements Cache {
   private static final TimeInterval DEFAULT_CLEANUP = new TimeInterval(60L, TimeUnit.SECONDS);
   private static final transient FifoMutexLock lock = new FifoMutexLock();

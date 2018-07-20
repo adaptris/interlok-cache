@@ -22,7 +22,6 @@ class TimedExpirationCache extends EhcacheDecoratorAdapter {
   private transient final Logger log = LoggerFactory.getLogger(DefaultEhcache.class);
 
   private transient Timer timer;
-  private transient TimerTask cacheCleaner;
 
   public TimedExpirationCache(Ehcache underlyingCache) {
     this(underlyingCache, 30000);
@@ -32,7 +31,7 @@ class TimedExpirationCache extends EhcacheDecoratorAdapter {
     super(underlyingCache);
 
     timer = new Timer(underlyingCache.getName() + ".cleaner", true);
-    cacheCleaner = new TimerTask() {
+    TimerTask cacheCleaner = new TimerTask() {
       @Override
       public void run() {
         // if (log.isTraceEnabled()) {
