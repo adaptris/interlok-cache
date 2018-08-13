@@ -1,0 +1,60 @@
+ext {
+  componentName='Interlok EhCache/Integration'
+}
+
+dependencies {
+  compile ("net.sf.ehcache:ehcache:2.10.5") 
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task examplesJar(type: Jar, dependsOn: test) {
+    classifier = 'examples'
+    from new File(buildDir, '/examples')
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+artifacts {
+    archives javadocJar
+    archives examplesJar
+    archives sourcesJar
+}
+  
+publishing {
+  publications {
+      mavenJava(MavenPublication) {
+          from components.java
+
+          artifact javadocJar { classifier "javadoc" }
+          artifact examplesJar { classifier "examples" }
+          artifact sourcesJar { classifier "sources" }
+          pom.withXml {
+            asNode().appendNode("name", componentName)
+            asNode().appendNode("description", "Using ehcache2.x as a cache provider within Interlok")
+            def properties = asNode().appendNode("properties")
+            properties.appendNode("target", "3.8.0+")
+            properties.appendNode("license", "false")
+            properties.appendNode("tags", "cache,ehcache")
+          }
+      }
+  }
+  repositories {
+    maven {
+      credentials {
+        username repoUsername
+        password repoPassword
+      }
+      url mavenPublishUrl
+    }
+  }
+}
+
+javadoc.dependsOn umlJavadoc
