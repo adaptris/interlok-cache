@@ -35,6 +35,9 @@ ext.hasGraphViz = { ->
   }
 }
 
+task clean(type: Delete) {
+  delete project.buildDir
+}
 
 subprojects {
   // Apply the java plugin to add support for Java
