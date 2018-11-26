@@ -3,7 +3,7 @@ ext {
 }
 
 dependencies {
-  compile ("net.sf.ehcache:ehcache:2.10.6") 
+  compile ("net.sf.ehcache:ehcache:2.10.6")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -27,7 +27,7 @@ artifacts {
     archives examplesJar
     archives sourcesJar
 }
-  
+
 publishing {
   publications {
       mavenJava(MavenPublication) {
@@ -57,4 +57,4 @@ publishing {
   }
 }
 
-javadoc.dependsOn umlJavadoc
+javadoc.dependsOn offlinePackageList,umlJavadoc
