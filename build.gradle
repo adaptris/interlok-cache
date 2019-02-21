@@ -8,8 +8,11 @@ ext {
   repoUsername = project.hasProperty('repoUsername') ? project.getProperty('repoUsername') : 'unknown'
   repoPassword = project.hasProperty('repoPassword') ? project.getProperty('repoPassword') : 'unknown'
   defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
+  offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
+
   interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
   interlokCommonJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
+  organizationName = "Adaptris Ltd"
   slf4jVersion = '1.7.25'
   log4j2Version = '2.9.1'
 }
@@ -33,6 +36,9 @@ ext.hasGraphViz = { ->
   }
 }
 
+task clean(type: Delete) {
+  delete project.buildDir
+}
 
 subprojects {
   // Apply the java plugin to add support for Java
@@ -65,6 +71,7 @@ subprojects {
   configurations {
     javadoc {}
     umlDoclet {}
+    offlineJavadocPackages {}
     all*.exclude group: 'c3p0'
     all*.exclude group: 'commons-logging'
     all*.exclude group: 'javamail'
@@ -86,7 +93,7 @@ subprojects {
       compile ("com.adaptris:interlok-core-apt:$interlokCoreVersion") { changing= true}
       compile ("org.slf4j:slf4j-api:$slf4jVersion")
       annotationProcessor ("com.adaptris:interlok-common:$interlokCoreVersion") {changing= true}
-      umlDoclet("nl.talsmasoftware:umldoclet:1.1.2")
+      umlDoclet("nl.talsmasoftware:umldoclet:1.1.3")
       testCompile ('junit:junit:4.12')
       testCompile ("com.adaptris:interlok-stubs:$interlokCoreVersion") { changing= true}
       testCompile ("org.apache.logging.log4j:log4j-core:$log4j2Version")
@@ -95,14 +102,17 @@ subprojects {
       testCompile ("org.mockito:mockito-all:1.10.19")
 
       javadoc("com.adaptris:interlok-core-apt:$interlokCoreVersion") { changing= true}
+      offlineJavadocPackages ("com.adaptris:interlok-core:$interlokCoreVersion:javadoc@jar") { changing= true}
+      offlineJavadocPackages ("com.adaptris:interlok-common:$interlokCoreVersion:javadoc@jar") { changing= true}
   }
 
   javadoc {
+    onlyIf {
+      !hasGraphViz()
+    }
     configure(options) {
-      links = [
-        interlokJavadocs,
-        interlokCommonJavadocs,
-      ]
+      options.linksOffline(interlokJavadocs, offlineJavadocPackageDir.getCanonicalPath() + "/interlok-core-$interlokCoreVersion-javadoc.jar")
+      options.linksOffline(interlokCommonJavadocs, offlineJavadocPackageDir.getCanonicalPath() + "/interlok-common-$interlokCoreVersion-javadoc.jar")
       taglets = ["com.adaptris.taglet.ConfigTaglet", "com.adaptris.taglet.LicenseTaglet"]
       options.addStringOption "tagletpath", configurations.javadoc.asPath
     }
@@ -140,6 +150,19 @@ subprojects {
     }
   }
 
+  task offlinePackageList(type: Copy) {
+    description 'Build an offline package-list for javadocs'
+    group 'Documentation'
+
+    project.configurations.offlineJavadocPackages.collect { dependency ->
+      from(zipTree(dependency)) {
+        into dependency.name
+      }
+    }
+    include "package-list"
+    into offlineJavadocPackageDir
+  }
+
   task umlJavadoc(type: Javadoc) {
     group 'Documentation'
     description 'Build javadocs using plantuml + graphviz + umldoclet, if dot is available'
@@ -150,10 +173,9 @@ subprojects {
     source = sourceSets.main.allJava
     classpath = project.sourceSets.main.compileClasspath
     configure(options) {
-        links = [
-          interlokJavadocs,
-          interlokCommonJavadocs,
-        ]
+      options.linksOffline(interlokJavadocs, offlineJavadocPackageDir.getCanonicalPath() + "/interlok-core-$interlokCoreVersion-javadoc.jar")
+      options.linksOffline(interlokCommonJavadocs, offlineJavadocPackageDir.getCanonicalPath() + "/interlok-common-$interlokCoreVersion-javadoc.jar")
+
       taglets = ["com.adaptris.taglet.ConfigTaglet", "com.adaptris.taglet.LicenseTaglet"]
       options.addStringOption "tagletpath", configurations.javadoc.asPath
       options.docletpath = configurations.umlDoclet.files.asType(List)

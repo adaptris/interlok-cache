@@ -118,9 +118,9 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
    * The cache provider classname varies from provider to provider, if you were going to use the reference implementation
    * (not-recommended) then you would use {@code org.jsr107.ri.spi.RICachingProvider}. Some other providers might be
    * <ul>
-   * <li>Redis (via Redisson {@code org.redisson:redisson:3.7.4} : org.redisson.jcache.JCachingProvider</li>
+   * <li>Redis (via Redisson) {@code org.redisson:redisson:3.7.4} : org.redisson.jcache.JCachingProvider</li>
    * <li>Apache Ignite {@code org.apache.ignite:ignite-core:2.5.0} : org.apache.ignite.cache.CachingProvider</li>
-   * <li>ehcache3 (via Redisson {@code org.ehcache:ehcache:3.x.y} : org.ehcache.jsr107.EhcacheCachingProvider</li>
+   * <li>ehcache3 {@code org.ehcache:ehcache:3.x.y} : org.ehcache.jsr107.EhcacheCachingProvider</li>
    * <li>hazelcast ({@code com.hazelcast:hazelcast:x.y.z}) : com.hazelcast.cache.HazelcastCachingProvider</li>
    * <li>You can also use the "friendly names" specified by {@link ConfiguredJsr107Cache.ProviderNames}</li>
    * </ul>
