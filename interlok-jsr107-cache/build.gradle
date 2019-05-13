@@ -6,7 +6,7 @@ ext {
 
 dependencies {
   compile ("javax.cache:cache-api:1.1.1")
-  testCompile ("org.jsr107.ri:cache-ri-impl:1.1.0")
+  testCompile ("org.jsr107.ri:cache-ri-impl:1.1.1")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
