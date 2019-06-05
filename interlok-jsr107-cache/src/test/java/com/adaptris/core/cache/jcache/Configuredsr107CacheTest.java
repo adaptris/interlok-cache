@@ -3,7 +3,6 @@ package com.adaptris.core.cache.jcache;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import com.adaptris.util.GuidGenerator;
 
 public class Configuredsr107CacheTest extends Jsr107CacheCase {
@@ -37,7 +36,7 @@ public class Configuredsr107CacheTest extends Jsr107CacheCase {
     standardTests(cache);
   }
 
-
+  @Override
   protected ConfiguredJsr107Cache createCacheInstance(boolean uniqueCacheName) {
     ConfiguredJsr107Cache cache = new ConfiguredJsr107Cache()
         .withCacheName(uniqueCacheName ? new GuidGenerator().safeUUID() : ConfiguredJsr107Cache.class.getSimpleName());

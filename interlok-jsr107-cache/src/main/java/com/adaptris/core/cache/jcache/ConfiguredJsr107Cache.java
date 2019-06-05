@@ -1,20 +1,17 @@
 package com.adaptris.core.cache.jcache;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
+import java.net.URI;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.spi.CachingProvider;
-
 import org.apache.commons.lang3.StringUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.annotation.InputFieldHint;
 import com.adaptris.core.CoreException;
 import com.adaptris.core.util.ExceptionHelper;
-import com.adaptris.util.URLString;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
@@ -76,6 +73,7 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
     }
   }
 
+
   @AdvancedConfig
   @InputFieldHint(style = "com.adaptris.core.cache.jcache.ConfiguredJsr107Cache.ProviderNames")
   private String cacheProviderClassname;
@@ -83,11 +81,13 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
   @InputFieldHint(style = "BLANKABLE")
   private String configurationUrl;
 
+  private transient Logger log = LoggerFactory.getLogger(this.getClass());
   public ConfiguredJsr107Cache() {
 
   }
 
 
+  @Override
   protected CacheManager getCacheManager() throws CoreException {
     CachingProvider provider = null;
     CacheManager mgr = null;
@@ -98,11 +98,13 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
         provider = Caching.getCachingProvider();
       }
       if (!StringUtils.isEmpty(getConfigurationUrl())) {
-        mgr = provider.getCacheManager(new URLString(getConfigurationUrl()).getURL().toURI(), null);
+        URI uri = ConfigHelper.asURI(getConfigurationUrl());
+        log.trace("Using {} as configuration", uri.normalize());
+        mgr = provider.getCacheManager(uri, null);
       } else {
         mgr = provider.getCacheManager();
       }
-    } catch (MalformedURLException | URISyntaxException e) {
+    } catch (Exception e) {
       throw ExceptionHelper.wrapCoreException(e);
     }
     return mgr;
@@ -169,4 +171,5 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
     }
     return result;
   }
+
 }
