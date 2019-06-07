@@ -1,7 +1,6 @@
 package com.adaptris.core.cache.jcache;
 
 import java.util.concurrent.TimeUnit;
-
 import javax.cache.CacheManager;
 import javax.cache.configuration.Factory;
 import javax.cache.configuration.MutableConfiguration;
@@ -9,7 +8,7 @@ import javax.cache.expiry.Duration;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
+import org.apache.commons.lang3.ObjectUtils;
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.AutoPopulated;
 import com.adaptris.annotation.DisplayOrder;
@@ -43,7 +42,7 @@ public class NewCacheConfiguration {
   }
 
   private static Duration wrap(TimeInterval interval) {
-    TimeInterval t = (interval != null) ? interval : DEFAULT_EXPIRY;
+    TimeInterval t = ObjectUtils.defaultIfNull(interval, DEFAULT_EXPIRY);
     return new Duration(t.getUnit(), t.getInterval());
   }
 
