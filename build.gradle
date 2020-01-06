@@ -1,6 +1,6 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 plugins {
-  id 'com.github.spotbugs' version '2.0.0' apply false
+  id 'com.github.spotbugs' version '3.0.0' apply false
 }
 
 ext {
@@ -17,7 +17,7 @@ ext {
   interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
   interlokCommonJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
   organizationName = "Adaptris Ltd"
-  slf4jVersion = '1.7.28'
+  slf4jVersion = '1.7.29'
   log4j2Version = '2.12.1'
 }
 
@@ -38,6 +38,24 @@ ext.hasGraphViz = { ->
   return System.getenv("PATH").split(File.pathSeparator).any{
     java.nio.file.Paths.get("${it}").resolve(app).toFile().exists()
   }
+}
+ext.gitBranchNameOrTimestamp = { branchName ->
+  if (branchName.equals("HEAD") || branchName.equals("develop") || branchName.startsWith("release")) {
+    return new Date().format('HH:mm:ss z');
+  }
+  return branchName;
+}
+
+ext.buildInfo = { ->
+   new ByteArrayOutputStream().withStream { os ->
+      exec {
+        executable = "git"
+        args = ["rev-parse", "--abbrev-ref", "HEAD"]
+        standardOutput = os
+      }
+      def branchName = os.toString().replaceAll("\r", "").replaceAll("\n", "").trim();
+      return gitBranchNameOrTimestamp(branchName);
+    }
 }
 
 task clean(type: Delete) {
@@ -121,10 +139,6 @@ subprojects {
     }
   }
 
-  jacoco {
-    toolVersion="0.8.3"
-  }
-
   jacocoTestReport {
       reports {
           xml.enabled true
@@ -149,6 +163,7 @@ subprojects {
         entry(key: 'groupId', value: project.group)
         entry(key: 'artifactId', value: project.name)
         entry(key: 'build.date', value: new Date().format('yyyy-MM-dd'))
+        entry(key: 'build.info', value: buildInfo())
       }
     }
   }
