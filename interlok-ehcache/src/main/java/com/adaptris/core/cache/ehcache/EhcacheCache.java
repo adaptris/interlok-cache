@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.AutoPopulated;
 import com.adaptris.annotation.InputFieldDefault;
@@ -21,7 +18,6 @@ import com.adaptris.core.cache.Cache;
 import com.adaptris.core.util.Args;
 import com.adaptris.util.FifoMutexLock;
 import com.adaptris.util.TimeInterval;
-
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
@@ -94,7 +90,7 @@ public abstract class EhcacheCache implements Cache {
   protected abstract Ehcache createCache();
 
   private boolean cacheManagerAlive() {
-    return (cacheManager != null) ? cacheManager.getStatus() == Status.STATUS_ALIVE : false;
+    return cacheManager != null ? cacheManager.getStatus() == Status.STATUS_ALIVE : false;
   }
 
   protected void initialiseCache() throws CoreException {
@@ -149,9 +145,11 @@ public abstract class EhcacheCache implements Cache {
     }
   }
 
+  @Override
   public void start() {
   }
 
+  @Override
   public void stop() {
 
   }
