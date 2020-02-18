@@ -68,6 +68,7 @@ subprojects {
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
   apply plugin: "jacoco"
+  apply plugin: 'com.github.spotbugs'
 
   sourceCompatibility = 1.8
   group   = 'com.adaptris'
@@ -215,6 +216,28 @@ subprojects {
       options.addStringOption "umlIncludeProtectedInnerClasses","false"
       title= project.name
     }
+  }
+
+  spotbugs {
+    // showProgress = "true"
+    effort = "max"
+    // Ignore failures?
+    // ignoreFailures = false
+
+    // We only care about "high priority" issues...
+    reportLevel = "high"
+  }
+
+  // disable spotbugsTests which checks our test code..
+  spotbugsTest.enabled = false
+
+  tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+      xml.enabled = false
+      html.enabled = true
+    }
+    // includeFilter = new File("$rootDir/gradle/spotbugs-filter.xml")
+    // excludeFilter = new File("$rootDir/gradle/spotbugs-exclude.xml")
   }
 
   check.dependsOn jacocoTestReport
