@@ -1,24 +1,19 @@
 package com.adaptris.core.cache.ehcache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import java.util.concurrent.TimeUnit;
-
+import org.junit.Test;
 import com.adaptris.util.TimeInterval;
 
 public class DefaultCacheTest extends EhcacheCacheCase {
-
-  public DefaultCacheTest(String name) {
-    super(name);
-  }
-
   @Override
-  public void setUp() throws Exception {
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
 
-  @Override
-  public void tearDown() {
-
-  }
-
+  @Test
   public void testSetCacheName() throws Exception {
     DefaultEhcache myCache = createCacheInstance();
     assertEquals(EhcacheCache.DEFAULT_CACHE_NAME, myCache.getCacheName());
@@ -34,6 +29,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertEquals("name", myCache.getCacheName());
   }
 
+  @Test
   public void testSetCacheCleanupInterval() throws Exception {
     DefaultEhcache myCache = createCacheInstance();
     assertNull(myCache.getCacheCleanupInterval());
@@ -50,6 +46,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertEquals(new TimeInterval(1L, TimeUnit.MINUTES).toMilliseconds(), myCache.cacheCleanupIntervalMs());
   }
 
+  @Test
   public void testSetMaxElementsInMemory() throws Exception {
     DefaultEhcache myCache = createCacheInstance();
     assertNull(myCache.getMaxElementsInMemory());
@@ -64,6 +61,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertEquals(0, myCache.maxElementsInMemory());
   }
 
+  @Test
   public void testSetTimeToIdle() throws Exception {
     DefaultEhcache myCache = createCacheInstance();
     assertNull(myCache.getTimeToIdle());
@@ -80,6 +78,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertEquals(-1, myCache.timeToIdleSeconds());
   }
 
+  @Test
   public void testSetTimeToLive() throws Exception {
     DefaultEhcache myCache = createCacheInstance();
     assertNull(myCache.getTimeToLive());

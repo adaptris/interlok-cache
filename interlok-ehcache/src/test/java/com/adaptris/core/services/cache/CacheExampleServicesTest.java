@@ -2,7 +2,6 @@ package com.adaptris.core.services.cache;
 
 import java.util.Arrays;
 import java.util.UUID;
-
 import com.adaptris.core.cache.Cache;
 import com.adaptris.core.cache.ehcache.DefaultEhcache;
 import com.adaptris.core.cache.ehcache.EhcacheFromFile;
@@ -69,7 +68,10 @@ public class CacheExampleServicesTest extends CacheServiceExample {
 
     public abstract boolean matches(Cache impl);
   }
-
+  @Override
+  public boolean isAnnotatedForJunit4() {
+    return true;
+  }
   @Override
   protected Iterable<CacheExampleImplementation> getExampleCacheImplementations() {
     return Arrays.asList(CacheImps.values());

@@ -1,19 +1,23 @@
 package com.adaptris.core.cache.ehcache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
+import org.junit.Test;
 import com.adaptris.util.TimeInterval;
 
 public class EhcacheFromUrlTest extends EhcacheFromConfigCase {
-
-  public EhcacheFromUrlTest(String name) {
-    super(name);
+  @Override
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
 
-
+  @Test
   public void testSetCacheConfigurationURL() throws Exception {
     EhcacheFromUrl myCache = createCacheInstance();
     assertNull(myCache.getConfigurationUrl());
@@ -29,12 +33,14 @@ public class EhcacheFromUrlTest extends EhcacheFromConfigCase {
     assertEquals("http://my.server.com/path/to/ehcache.xml", myCache.getConfigurationUrl());
   }
 
+  @Test
   public void testDifferentConfigFiles() throws Exception {
     EhcacheFromUrl myCache1 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));
     EhcacheFromUrl myCache2 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE_ALTERNATE));
     assertNotSame(myCache1.createCacheManager(), myCache2.createCacheManager());
   }
 
+  @Test
   public void testSameConfigFile() throws Exception {
     EhcacheFromUrl myCache1 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));
     EhcacheFromUrl myCache2 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));
