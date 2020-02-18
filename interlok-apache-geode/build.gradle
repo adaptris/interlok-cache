@@ -52,7 +52,7 @@ publishing {
             asNode().appendNode("name", componentName)
             asNode().appendNode("description", "Using Apache Geode as a cache provider within Interlok")
             def properties = asNode().appendNode("properties")
-            properties.appendNode("target", "3.8.0+")
+            properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
             properties.appendNode("tags", "cache,geode")
           }
