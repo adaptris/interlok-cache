@@ -11,8 +11,6 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
 import org.apache.geode.cache.client.ClientRegionShortcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.AutoPopulated;
 import com.adaptris.annotation.DisplayOrder;
@@ -49,8 +47,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @AdapterComponent
 @DisplayOrder(order = {"cacheFileName", "regionName", "clientRegionShortcut", "hostname", "port", "isDurable"})
 public class GeodeCache implements Cache {
-
-  protected transient Logger log = LoggerFactory.getLogger(this.getClass());
 
   @NotBlank
   @AutoPopulated
