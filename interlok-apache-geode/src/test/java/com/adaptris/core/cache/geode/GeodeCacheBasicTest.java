@@ -62,11 +62,11 @@ public class GeodeCacheBasicTest {
 
     @Test
     public void testDurable() throws Exception {
-        assertEquals(false, sut.isDurable());
+        assertEquals(false, sut.getDurable());
         sut.setDurable(true);
-        assertEquals(true, sut.isDurable());
+        assertEquals(true, sut.getDurable());
         sut.setDurable(false);
-        assertEquals(false, sut.isDurable());
+        assertEquals(false, sut.getDurable());
     }
 
     @Test
