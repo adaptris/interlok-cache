@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.geode.cache.CacheClosedException;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
@@ -95,11 +94,7 @@ public class GeodeCache implements Cache {
 
   @Override
   public void close() {
-    try {
-      geodeCache.close(getDurable());
-    } catch (CacheClosedException cce) {
-      log.warn("Cache is already closed");
-    }
+    closeQuietly(geodeCache, durable());
   }
 
   // ------------------------------------------------------------------------
@@ -196,6 +191,14 @@ public class GeodeCache implements Cache {
 
   private boolean durable() {
     return BooleanUtils.toBooleanDefaultIfNull(getDurable(), false);
+  }
 
+  private static void closeQuietly(ClientCache cache, boolean keepAlive) {
+    try {
+      if (cache != null) {
+        cache.close(keepAlive);
+      }
+    } catch (Exception cce) {
+    }
   }
 }
