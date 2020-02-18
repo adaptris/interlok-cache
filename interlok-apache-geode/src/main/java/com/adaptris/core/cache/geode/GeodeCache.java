@@ -1,8 +1,11 @@
 package com.adaptris.core.cache.geode;
 
 import java.io.Serializable;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
@@ -52,13 +55,11 @@ public class GeodeCache implements Cache {
   @NotBlank
   @AutoPopulated
   private String regionName;
-  private String hostname;
-  @InputFieldDefault(value = "10334")
-  private int port;
   @InputFieldDefault(value = "LOCAL")
-  private String clientRegionShortcut;
-  @InputFieldDefault(value = "cache.xml")
-  private String cacheFileName;
+  private ClientRegionShortcut clientRegionShortcut = ClientRegionShortcut.LOCAL;
+  @Valid
+  @NotNull
+  private ClientCacheBuilder cacheBuilder;
 
   // maintain your durable queues while the client cache is closed
   @InputFieldDefault(value = "false")
@@ -67,6 +68,10 @@ public class GeodeCache implements Cache {
   private transient ClientCache geodeCache;
   private transient Region<String, Object> geodeRegion;
 
+
+  public GeodeCache() {
+    setCacheBuilder(new ClientCacheFromFile());
+  }
 
   @Override
   public void init() throws CoreException {
@@ -78,18 +83,11 @@ public class GeodeCache implements Cache {
   }
 
   protected void initialiseCache(ClientCacheFactory clientCacheFactory) throws ServiceException {
-    if (StringUtils.isBlank(getClientRegionShortcut()) || StringUtils.isBlank(getRegionName())) {
-      throw new ServiceException("GeodeCache must have clientRegion and RegionName specified");
+    if (StringUtils.isBlank(getRegionName())) {
+      throw new ServiceException("GeodeCache must have RegionName specified");
     }
-    // Configure with cache file if supplied
-    if (!StringUtils.isBlank(getCacheFileName())) {
-      log.debug("Attempting to configure GeodeCache from supplied cacheFileName");
-      this.geodeCache = clientCacheFactory.set("cache-xml-file", getCacheFileName()).create();
-      this.geodeRegion = geodeCache.<String, Object>createClientRegionFactory(clientRegionShortcut()).create(getRegionName());
-    } else {
-      this.geodeCache = clientCacheFactory.addPoolLocator(getHostname(), getPort()).create();
-      this.geodeRegion = geodeCache.<String, Object>createClientRegionFactory(clientRegionShortcut()).create(getRegionName());
-    }
+    this.geodeCache = getCacheBuilder().build(clientCacheFactory);
+    this.geodeRegion = geodeCache.<String, Object>createClientRegionFactory(clientRegionShortcut()).create(getRegionName());
   }
 
   @Override
@@ -145,40 +143,16 @@ public class GeodeCache implements Cache {
     this.regionName = Args.notBlank(regionName, "regionName");
   }
 
-  public String getHostname() {
-    return hostname;
-  }
-
-  public void setHostname(String hostname) {
-    this.hostname = hostname;
-  }
-
-  public int getPort() {
-    return port;
-  }
-
-  public void setPort(int port) {
-    this.port = port;
-  }
-
-  public String getClientRegionShortcut() {
+  public ClientRegionShortcut getClientRegionShortcut() {
     return clientRegionShortcut;
   }
 
-  public void setClientRegionShortcut(String clientRegionShortcut) {
+  public void setClientRegionShortcut(ClientRegionShortcut clientRegionShortcut) {
     this.clientRegionShortcut = clientRegionShortcut;
   }
 
   public ClientRegionShortcut clientRegionShortcut() {
-    return ClientRegionShortcut.valueOf(getClientRegionShortcut());
-  }
-
-  public String getCacheFileName() {
-    return cacheFileName;
-  }
-
-  public void setCacheFileName(String cacheFileName) {
-    this.cacheFileName = cacheFileName;
+    return ObjectUtils.defaultIfNull(getClientRegionShortcut(), ClientRegionShortcut.LOCAL);
   }
 
   public Boolean getDurable() {
@@ -192,6 +166,15 @@ public class GeodeCache implements Cache {
   private boolean durable() {
     return BooleanUtils.toBooleanDefaultIfNull(getDurable(), false);
   }
+
+  public ClientCacheBuilder getCacheBuilder() {
+    return cacheBuilder;
+  }
+  
+  public void setCacheBuilder(ClientCacheBuilder cacheBuilder) {
+    this.cacheBuilder = Args.notNull(cacheBuilder, "cache-builder");
+  }
+  
 
   private static void closeQuietly(ClientCache cache, boolean keepAlive) {
     try {
