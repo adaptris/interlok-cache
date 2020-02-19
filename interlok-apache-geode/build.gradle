@@ -3,7 +3,7 @@ ext {
 }
 
 dependencies {
-  compile ("org.apache.geode:geode-core:1.9.1")
+  compile ("org.apache.geode:geode-core:1.11.0")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
