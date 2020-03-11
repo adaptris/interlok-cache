@@ -1,19 +1,21 @@
 package com.adaptris.core.cache.ehcache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import java.util.concurrent.TimeUnit;
-
+import org.junit.Test;
 import com.adaptris.util.TimeInterval;
-
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Status;
 
 public class EhcacheFromXmlTest extends EhcacheFromConfigCase {
-
-  public EhcacheFromXmlTest(String name) {
-    super(name);
+  @Override
+  public boolean isAnnotatedForJunit4() {
+    return true;
   }
-
-
+  @Test
   public void testSetCacheConfigurationFile() throws Exception {
     EhcacheFromFile myCache = createCacheInstance();
     assertNull(myCache.getXmlConfigurationFilename());
@@ -29,6 +31,7 @@ public class EhcacheFromXmlTest extends EhcacheFromConfigCase {
     assertEquals("a filename", myCache.getXmlConfigurationFilename());
   }
 
+  @Test
   public void testDifferentConfigFiles() throws Exception {
     EhcacheFromFile myCache1 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));
     EhcacheFromFile myCache2 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE_ALTERNATE));
@@ -39,6 +42,7 @@ public class EhcacheFromXmlTest extends EhcacheFromConfigCase {
     assertEquals(Status.STATUS_ALIVE, myCm2.getStatus());
   }
 
+  @Test
   public void testSameConfigFile() throws Exception {
     EhcacheFromFile myCache1 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));
     EhcacheFromFile myCache2 = createCacheInstance(PROPERTIES.getProperty(EHCACHE_XML_FILE));

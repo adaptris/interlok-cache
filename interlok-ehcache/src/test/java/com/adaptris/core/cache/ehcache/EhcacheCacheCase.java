@@ -1,35 +1,27 @@
 package com.adaptris.core.cache.ehcache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
+import org.junit.Test;
 import com.adaptris.core.BaseCase;
 import com.adaptris.core.cache.CacheEventListener;
 import com.adaptris.util.TimeInterval;
 
 public abstract class EhcacheCacheCase extends BaseCase {
 
-  public EhcacheCacheCase(String name) {
-    super(name);
-  }
-
   static final String EHCACHE_XML_CACHE_NAME = "unitTestCache";
   static final long TTL_INTERVAL = 5500L;
   static final long INTERVAL = 500L;
 
-  @Override
-  public void setUp() throws Exception {
-  }
-
-  @Override
-  public void tearDown() {
-
-  }
-
+  @Test
   public void testRedmine7064() throws Exception {
     testCacheManagerShutdown_CacheStillActive();
   }
 
+  @Test
   public void testCacheManagerShutdown_CacheStillActive() throws Exception {
     EhcacheCache cache1 = createCacheInstance(true);
     EhcacheCache cache2 = createCacheInstance(true);
@@ -54,10 +46,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testPut() throws Exception {
     doPutTests(createCacheInstance(false));
   }
 
+  @Test
   public void testPut_UsingEhCacheXml() throws Exception {
     doPutTests(createCacheInstance(true));
   }
@@ -88,10 +82,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testUpdate() throws Exception {
     doUpdateTests(createCacheInstance(false));
   }
 
+  @Test
   public void testUpdate_UsingEhCacheXml() throws Exception {
     doUpdateTests(createCacheInstance(true));
   }
@@ -116,10 +112,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testClear() throws Exception {
     doClearTests(createCacheInstance(false));
   }
 
+  @Test
   public void testClear_UsingEhCacheXml() throws Exception {
     doClearTests(createCacheInstance(true));
   }
@@ -143,10 +141,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testGet() throws Exception {
     doGetTests(createCacheInstance(false));
   }
 
+  @Test
   public void testGet_UsingEhCacheXml() throws Exception {
     doGetTests(createCacheInstance(true));
   }
@@ -173,10 +173,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testRemove() throws Exception {
     doRemoveTests(createCacheInstance(false));
   }
 
+  @Test
   public void testRemove_UsingEhCacheXml() throws Exception {
     doRemoveTests(createCacheInstance(true));
   }
@@ -214,10 +216,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testGetKeys() throws Exception {
     doGetKeysTests(createCacheInstance(false));
   }
 
+  @Test
   public void testGetKeys_UsingEhCacheXml() throws Exception {
     doGetKeysTests(createCacheInstance(true));
   }
@@ -245,10 +249,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testListener() throws Exception {
     doListenerTests(createCacheInstance(false));
   }
 
+  @Test
   public void testListener_UsingEhcacheXml() throws Exception {
     doListenerTests(createCacheInstance(true));
   }
@@ -275,10 +281,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
     }
   }
 
+  @Test
   public void testExpiration() throws Exception {
     doExpirationTests(createCacheInstance(false));
   }
 
+  @Test
   public void testExpiration_UsingEhCacheXml() throws Exception {
     doExpirationTests(createCacheInstance(true));
   }

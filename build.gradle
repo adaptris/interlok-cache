@@ -4,8 +4,8 @@ plugins {
 }
 
 ext {
-  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.9-SNAPSHOT'
-  releaseVersion = project.hasProperty('releaseVersion') ? project.getProperty('releaseVersion') : '3.9-SNAPSHOT'
+  interlokCoreVersion = project.hasProperty('interlokCoreVersion') ? project.getProperty('interlokCoreVersion') : '3.10-SNAPSHOT'
+  releaseVersion = project.hasProperty('releaseVersion') ? project.getProperty('releaseVersion') : '3.10-SNAPSHOT'
   nexusBaseUrl = project.hasProperty('nexusBaseUrl') ? project.getProperty('nexusBaseUrl') : 'https://nexus.adaptris.net/nexus'
   mavenPublishUrl = project.hasProperty('mavenPublishUrl') ? project.getProperty('mavenPublishUrl') : nexusBaseUrl + '/content/repositories/snapshots'
   javadocsBaseUrl = nexusBaseUrl + "/content/sites/javadocs/com/adaptris"
@@ -17,8 +17,8 @@ ext {
   interlokJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-core/" + interlokCoreVersion
   interlokCommonJavadocs= project.hasProperty('interlokJavadocs') ? project.getProperty('interlokJavadocs') : javadocsBaseUrl + "/interlok-common/" + interlokCoreVersion
   organizationName = "Adaptris Ltd"
-  slf4jVersion = '1.7.29'
-  log4j2Version = '2.12.1'
+  slf4jVersion = '1.7.30'
+  log4j2Version = '2.13.0'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -68,6 +68,7 @@ subprojects {
   apply plugin: 'maven'
   apply plugin: 'maven-publish'
   apply plugin: "jacoco"
+  apply plugin: 'com.github.spotbugs'
 
   sourceCompatibility = 1.8
   group   = 'com.adaptris'
@@ -115,7 +116,7 @@ subprojects {
       compile ("org.slf4j:slf4j-api:$slf4jVersion")
       annotationProcessor ("com.adaptris:interlok-common:$interlokCoreVersion") {changing= true}
       umlDoclet("nl.talsmasoftware:umldoclet:1.1.4")
-      testCompile ('junit:junit:4.12')
+      testCompile ('junit:junit:4.13')
       testCompile ("com.adaptris:interlok-stubs:$interlokCoreVersion") { changing= true}
       testCompile ("org.apache.logging.log4j:log4j-core:$log4j2Version")
       testCompile ("org.apache.logging.log4j:log4j-1.2-api:$log4j2Version")
@@ -215,6 +216,28 @@ subprojects {
       options.addStringOption "umlIncludeProtectedInnerClasses","false"
       title= project.name
     }
+  }
+
+  spotbugs {
+    // showProgress = "true"
+    effort = "max"
+    // Ignore failures?
+    // ignoreFailures = false
+
+    // We only care about "high priority" issues...
+    reportLevel = "high"
+  }
+
+  // disable spotbugsTests which checks our test code..
+  spotbugsTest.enabled = false
+
+  tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+      xml.enabled = false
+      html.enabled = true
+    }
+    // includeFilter = new File("$rootDir/gradle/spotbugs-filter.xml")
+    // excludeFilter = new File("$rootDir/gradle/spotbugs-exclude.xml")
   }
 
   check.dependsOn jacocoTestReport

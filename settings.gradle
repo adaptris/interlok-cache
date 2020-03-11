@@ -1,3 +1,5 @@
 rootProject.name = 'interlok-cache'
 include 'interlok-ehcache'
 include 'interlok-jsr107-cache'
+include 'interlok-apache-geode'
+

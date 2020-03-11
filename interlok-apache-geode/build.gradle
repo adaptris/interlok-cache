@@ -1,9 +1,9 @@
 ext {
-  componentName='Interlok EhCache/Integration'
+  componentName='Interlok Apache Geode/Integration'
 }
 
 dependencies {
-  compile ("net.sf.ehcache:ehcache:2.10.6")
+  compile ("org.apache.geode:geode-core:1.11.0")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -48,11 +48,11 @@ publishing {
           artifact sourcesJar { classifier "sources" }
           pom.withXml {
             asNode().appendNode("name", componentName)
-            asNode().appendNode("description", "Using ehcache2.x as a cache provider within Interlok")
+            asNode().appendNode("description", "Using Apache Geode as a cache provider within Interlok")
             def properties = asNode().appendNode("properties")
-            properties.appendNode("target", "3.8.0+")
+            properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
-            properties.appendNode("tags", "cache,ehcache")
+            properties.appendNode("tags", "cache,geode")
           }
       }
   }
