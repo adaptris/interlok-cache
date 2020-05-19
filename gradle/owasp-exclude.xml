@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+   <suppress>
+      <notes><![CDATA[
+      file name: jgroups-3.6.14.Final.jar
+      Runtime Apache Geode dependency; largely depends on how the customer deploys it
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.jgroups/jgroups@.*$</packageUrl>
+      <vulnerabilityName>CWE-300: Channel Accessible by Non-Endpoint ('Man-in-the-Middle')</vulnerabilityName>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      file name: shiro-cache-1.4.1.jar
+      Runtime Apache Geode dependency; largely depends on how the customer deploys it
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro/shiro.*$</packageUrl>
+      <cpe>cpe:/a:apache:shiro</cpe>
+      <vulnerabilityName>CVE-2020-1957</vulnerabilityName>
+     <vulnerabilityName>CVE-2019-12422</vulnerabilityName>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      file name: log4j-api-2.12.1.jar
+      Will be filtered out at runtime by the actual dependency managed by dependabot
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.apache\.logging\.log4j/log4j.*$</packageUrl>
+      <cpe>cpe:/a:apache:log4j</cpe>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      file name: spring-*-5.2.1.RELEASE.jar
+      Runtime Apache Geode dependency; largely depends on how the customer deploys it
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
+      <cve>CVE-2020-5397</cve>
+      <cve>CVE-2020-5398</cve>
+   </suppress>
+</suppressions>
