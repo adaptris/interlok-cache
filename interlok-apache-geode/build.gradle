@@ -7,7 +7,7 @@ dependencies {
     exclude group: 'org.apache.shiro'
   }
   compile ("commons-beanutils:commons-beanutils:1.9.4")
-  compile ("org.apache.shiro:shiro-core:1.5.3")
+  compile ("org.apache.shiro:shiro-core:1.6.0")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
