@@ -3,7 +3,7 @@ ext {
 }
 
 dependencies {
-  compile ("org.apache.geode:geode-core:1.13.0") {
+  compile ("org.apache.geode:geode-core:1.13.1") {
     exclude group: 'org.apache.shiro'
   }
   compile ("commons-beanutils:commons-beanutils:1.9.4")
