@@ -30,9 +30,13 @@
       <notes><![CDATA[
       file name: spring-*-5.2.1.RELEASE.jar
       Runtime Apache Geode dependency; largely depends on how the customer deploys it
+      2020-5397 (obsolete because of 5.2.5) relates to CORS/CSRF which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
+      2020-5397 (obsolete because of 5.2.5) relates to RFD which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
+      2020-5421 relates to jsessionid which shouldn't affect Interlok uness we have an HTTP endpoint exposed that passes that through.
       ]]></notes>
       <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
       <cve>CVE-2020-5397</cve>
       <cve>CVE-2020-5398</cve>
+      <cve>CVE-2020-5421</cve>
    </suppress>
 </suppressions>
