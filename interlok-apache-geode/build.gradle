@@ -66,6 +66,8 @@ publishing {
             properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
             properties.appendNode("tags", "cache,geode")
+            properties.appendNode("readme", "https://github.com/adaptris/interlok-cache/raw/develop/README.md")
+            properties.appendNode("repository", "https://github.com/adaptris/interlok-cache")
           }
       }
   }
