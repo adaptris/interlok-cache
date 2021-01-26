@@ -16,7 +16,15 @@
       <packageUrl regex="true">^pkg:maven/org\.apache\.shiro/shiro.*$</packageUrl>
       <cpe>cpe:/a:apache:shiro</cpe>
       <vulnerabilityName>CVE-2020-1957</vulnerabilityName>
-     <vulnerabilityName>CVE-2019-12422</vulnerabilityName>
+      <vulnerabilityName>CVE-2019-12422</vulnerabilityName>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      file name: shiro-core-1.6.0.jar
+      Runtime Apache Geode dependency; largely depends on how the customer deploys it
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro/shiro\-core@.*$</packageUrl>
+      <vulnerabilityName>CVE-2020-17510</vulnerabilityName>
    </suppress>
    <suppress>
       <notes><![CDATA[
