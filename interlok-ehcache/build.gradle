@@ -1,5 +1,6 @@
 ext {
-  componentName='Interlok EhCache/Integration'
+  componentName='Interlok Cache/EHCache'
+  componentDesc='Using ehcache 2.x as a cache provider within Interlok'
 }
 
 dependencies {
@@ -48,7 +49,7 @@ publishing {
           artifact sourcesJar { classifier "sources" }
           pom.withXml {
             asNode().appendNode("name", componentName)
-            asNode().appendNode("description", "Using ehcache2.x as a cache provider within Interlok")
+            asNode().appendNode("description", componentDesc)
             def properties = asNode().appendNode("properties")
             properties.appendNode("target", "3.8.0+")
             properties.appendNode("license", "false")

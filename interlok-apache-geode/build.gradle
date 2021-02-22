@@ -1,5 +1,6 @@
 ext {
-  componentName='Interlok Apache Geode/Integration'
+  componentName='Interlok Cache/Apache Geode'
+  componentDesc='Using Apache Geode as a cache provider within Interlok'
   jacksonVersion='2.12.1'
 }
 
@@ -61,7 +62,7 @@ publishing {
           artifact sourcesJar { classifier "sources" }
           pom.withXml {
             asNode().appendNode("name", componentName)
-            asNode().appendNode("description", "Using Apache Geode as a cache provider within Interlok")
+            asNode().appendNode("description", componentDesc)
             def properties = asNode().appendNode("properties")
             properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
