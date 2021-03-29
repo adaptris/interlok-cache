@@ -5,7 +5,7 @@ ext {
 }
 
 dependencies {
-  compile ("org.apache.geode:geode-core:1.13.1") {
+  compile ("org.apache.geode:geode-core:1.13.2") {
     exclude group: 'org.apache.shiro'
 	exclude group: "org.apache.httpcomponents", module: "httpclient"
     exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
