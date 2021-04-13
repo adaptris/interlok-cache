@@ -15,7 +15,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * Implementation of {@link com.adaptris.core.cache.CacheEventListener} that proxies javax.cache event notifications.
- * 
+ *
  * @config default-jsr107-event-listener
  */
 @XStreamAlias("default-jsr107-event-listener")
@@ -26,29 +26,29 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
   private enum CacheNotification {
     PUT() {
       @Override
-      void notify(CacheEventListener l, CacheEntryEvent e) {
+      void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
         l.itemPut(e.getKey().toString(),e.getValue());
       }
     },
     EXPIRED() {
       @Override
-      void notify(CacheEventListener l, CacheEntryEvent e) {
+      void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
         l.itemExpired(e.getKey().toString(),e.getValue());
       }
     },
     REMOVED() {
       @Override
-      void notify(CacheEventListener l, CacheEntryEvent e) {
+      void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
         l.itemRemoved(e.getKey().toString(),e.getValue());
       }
     },
     UPDATED() {
       @Override
-      void notify(CacheEventListener l, CacheEntryEvent e) {
+      void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
         l.itemUpdated(e.getKey().toString(),e.getValue());
       }
     };
-    abstract void notify(CacheEventListener l, CacheEntryEvent e);
+    abstract void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e);
   }
 
   private Set<CacheEventListener> listeners;
@@ -103,12 +103,12 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
   }
 
   public MutableCacheEntryListenerConfiguration<String, Object> configuration() {
-    return new MutableCacheEntryListenerConfiguration<String, Object>(this, null, true, true);
+    return new MutableCacheEntryListenerConfiguration<>(this, null, true, true);
   }
 
   private void sendNotifications(final CacheNotification notifier,
-                                 Iterable<CacheEntryEvent<? extends String, ? extends Object>> events)
-      throws CacheEntryListenerException {
+      Iterable<CacheEntryEvent<? extends String, ? extends Object>> events)
+          throws CacheEntryListenerException {
     try {
       events.forEach(e -> {
         listeners.forEach(l -> {

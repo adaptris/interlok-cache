@@ -15,22 +15,17 @@ import javax.cache.event.CacheEntryEvent;
 import javax.cache.event.CacheEntryListenerException;
 import javax.cache.event.EventType;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DefaultEventListenerTest {
 
-  private static Cache cache;
+  private static Cache<String, Object> cache;
 
   @BeforeClass
   public static void init() throws Exception {
     cache = Caching.getCachingProvider().getCacheManager().createCache(DefaultEventListenerTest.class.getSimpleName(),
         new MutableConfiguration<String, Object>().setTypes(String.class, Object.class));
-  }
-
-  @Before
-  public void setUp() throws Exception {
   }
 
   @Test
@@ -123,6 +118,8 @@ public class DefaultEventListenerTest {
   }
 
   private class MyCacheEntryEvent extends CacheEntryEvent<String, Object> {
+    private static final long serialVersionUID = 5300240032976089079L;
+
     private String key;
     private Object value;
 

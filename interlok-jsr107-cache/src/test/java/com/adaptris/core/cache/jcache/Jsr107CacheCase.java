@@ -69,7 +69,7 @@ public abstract class Jsr107CacheCase {
   public void testNotSerializable() throws Exception {
     Jsr107Cache cache = createCacheInstance(true);
     LifecycleHelper.initAndStart(cache);
-    cache.put("1", (Object) new Object());
+    cache.put("1", new Object());
   }
 
   protected void standardTests(Jsr107Cache cache) throws Exception {
@@ -98,6 +98,6 @@ public abstract class Jsr107CacheCase {
     }
   }
 
-  protected abstract <T extends Jsr107Cache> T createCacheInstance(boolean uniqueCacheName);
+  protected abstract Jsr107Cache createCacheInstance(boolean uniqueCacheName);
 
 }
