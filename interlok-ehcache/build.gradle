@@ -4,7 +4,7 @@ ext {
 }
 
 dependencies {
-  compile ("net.sf.ehcache:ehcache:2.10.6")
+  compile ("net.sf.ehcache:ehcache:2.10.9.2")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
