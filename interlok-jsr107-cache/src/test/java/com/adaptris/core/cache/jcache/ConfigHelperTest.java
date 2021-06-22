@@ -1,11 +1,14 @@
 package com.adaptris.core.cache.jcache;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
+
 import org.junit.Test;
+
 import com.adaptris.core.CoreException;
 import com.adaptris.core.stubs.TempFileUtils;
 
@@ -41,12 +44,8 @@ public class ConfigHelperTest extends ConfigHelper {
 
   @Test
   public void testAsURI() throws Exception {
-    try {
-      URI uri = asURI(null);
-      fail();
-    } catch (CoreException expected) {
+    assertThrows(CoreException.class, () -> asURI(null));
 
-    }
     File f1 = TempFileUtils.createTrackedDir(this);
     assertNotNull(asURI("file://localhost/" + f1.getCanonicalPath()));
   }

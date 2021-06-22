@@ -41,10 +41,12 @@
       2020-5397 (obsolete because of 5.2.5) relates to CORS/CSRF which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
       2020-5397 (obsolete because of 5.2.5) relates to RFD which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
       2020-5421 relates to jsessionid which shouldn't affect Interlok uness we have an HTTP endpoint exposed that passes that through.
+      2021-22118 WebFlux application is vulnerable to a privilege escalation:
       ]]></notes>
       <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
       <cve>CVE-2020-5397</cve>
       <cve>CVE-2020-5398</cve>
       <cve>CVE-2020-5421</cve>
+      <cve>CVE-2021-22118</cve>
    </suppress>
 </suppressions>

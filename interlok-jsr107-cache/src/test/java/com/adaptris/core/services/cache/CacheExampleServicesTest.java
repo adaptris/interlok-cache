@@ -3,10 +3,13 @@ package com.adaptris.core.services.cache;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 import com.adaptris.core.cache.Cache;
 import com.adaptris.core.cache.jcache.BasicJsr107Cache;
 import com.adaptris.core.cache.jcache.ConfiguredJsr107Cache;
 import com.adaptris.core.cache.jcache.NewCacheConfiguration;
+import com.adaptris.interlok.junit.scaffolding.services.BasicCacheExampleGenerator;
+import com.adaptris.interlok.junit.scaffolding.services.CacheServiceExample;
 import com.adaptris.util.TimeInterval;
 
 // Generates example services that use ehcache as the cache connection
@@ -54,11 +57,7 @@ public class CacheExampleServicesTest extends CacheServiceExample {
 
     public abstract boolean matches(Cache impl);
   }
-  
-  @Override
-  public boolean isAnnotatedForJunit4() {
-    return true;
-  }
+
   @Override
   protected Iterable<CacheExampleImplementation> getExampleCacheImplementations() {
     return Arrays.asList(CacheImps.values());

@@ -5,9 +5,9 @@ import java.io.Serializable;
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.configuration.MutableConfiguration;
+import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.AutoPopulated;
@@ -18,7 +18,7 @@ import com.adaptris.core.util.ExceptionHelper;
 
 /**
  * abstract {@link com.adaptris.core.cache.Cache} implementation that wraps a JSR107/JCache caching provider.
- * 
+ *
  */
 @SuppressWarnings("unchecked")
 public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
@@ -37,7 +37,7 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
   private NewCacheConfiguration newCacheConfiguration;
 
   protected transient CacheManager manager;
-  protected transient Cache cache;
+  protected transient Cache<String, Object> cache;
 
   public Jsr107Cache() {
   }
@@ -62,7 +62,9 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
 
   @Override
   public void close() {
-    if (shutdownCacheManagerOnClose()) manager.close();
+    if (shutdownCacheManagerOnClose()) {
+      manager.close();
+    }
   }
 
   @Override
@@ -94,10 +96,10 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
 
   protected abstract CacheManager getCacheManager() throws CoreException;
 
-  protected Cache createCache() {
-    Cache cache = manager.getCache(Args.notBlank(getCacheName(), "cacheName"), String.class, Object.class);
+  protected Cache<String, Object> createCache() {
+    Cache<String, Object> cache = manager.getCache(Args.notBlank(getCacheName(), "cacheName"), String.class, Object.class);
     if (cache == null) {
-      MutableConfiguration config = new MutableConfiguration<String, Object>().setTypes(String.class, Object.class);
+      MutableConfiguration<String, Object> config = new MutableConfiguration<String, Object>().setTypes(String.class, Object.class);
       if (getNewCacheConfiguration() != null) {
         getNewCacheConfiguration().configure(config);
       }
@@ -111,7 +113,7 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
   }
 
   public void setShutdownCacheManagerOnClose(Boolean b) {
-    this.shutdownCacheManagerOnClose = b;
+    shutdownCacheManagerOnClose = b;
   }
 
   private boolean shutdownCacheManagerOnClose() {
@@ -128,11 +130,11 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
    * Set the cache name, if it does not exist then {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}
    * will be used to create along with any configuration specified by {@link #getNewCacheConfiguration()}.
    * </p>
-   * 
+   *
    * @param name
    */
   public void setCacheName(String name) {
-    this.cacheName = Args.notBlank(name, "cacheName");
+    cacheName = Args.notBlank(name, "cacheName");
   }
 
   public NewCacheConfiguration getNewCacheConfiguration() {
@@ -142,11 +144,11 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
   /**
    * Set any configuration that needs to be applied to be caches that are created via
    * {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}.
-   * 
+   *
    * @param newConfig any new configuration; default is null.
    */
   public void setNewCacheConfiguration(NewCacheConfiguration newConfig) {
-    this.newCacheConfiguration = newConfig;
+    newCacheConfiguration = newConfig;
   }
 
   public <T extends Jsr107Cache> T withNewCacheConfiguration(NewCacheConfiguration t) {

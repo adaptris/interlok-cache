@@ -1,19 +1,10 @@
 package com.adaptris.core.cache.jcache;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
 import com.adaptris.util.GuidGenerator;
 
 public class Configuredsr107CacheTest extends Jsr107CacheCase {
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
 
   @Test
   public void testCache_SpecificProvider() throws Exception {
