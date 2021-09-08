@@ -10,24 +10,6 @@
    </suppress>
    <suppress>
       <notes><![CDATA[
-      file name: shiro-cache-1.4.1.jar
-      Runtime Apache Geode dependency; largely depends on how the customer deploys it
-      ]]></notes>
-      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro/shiro.*$</packageUrl>
-      <cpe>cpe:/a:apache:shiro</cpe>
-      <vulnerabilityName>CVE-2020-1957</vulnerabilityName>
-      <vulnerabilityName>CVE-2019-12422</vulnerabilityName>
-   </suppress>
-   <suppress>
-      <notes><![CDATA[
-      file name: shiro-core-1.6.0.jar
-      Runtime Apache Geode dependency; largely depends on how the customer deploys it
-      ]]></notes>
-      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro/shiro\-core@.*$</packageUrl>
-      <vulnerabilityName>CVE-2020-17510</vulnerabilityName>
-   </suppress>
-   <suppress>
-      <notes><![CDATA[
       file name: log4j-api-2.12.1.jar
       Will be filtered out at runtime by the actual dependency managed by dependabot
       ]]></notes>
@@ -36,17 +18,11 @@
    </suppress>
    <suppress>
       <notes><![CDATA[
-      file name: spring-*-5.2.1.RELEASE.jar
-      Runtime Apache Geode dependency; largely depends on how the customer deploys it
-      2020-5397 (obsolete because of 5.2.5) relates to CORS/CSRF which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
-      2020-5397 (obsolete because of 5.2.5) relates to RFD which shouldn't affect Interlok unless we have an HTTP endpoint exposed that passes that through
-      2020-5421 relates to jsessionid which shouldn't affect Interlok uness we have an HTTP endpoint exposed that passes that through.
-      2021-22118 WebFlux application is vulnerable to a privilege escalation:
+      file name: geode-core-1.14.0.jar
+	  Many old false positive CVEs for http_server(CVE-2018-1303, CVE-2003-0789, CVE-2013-2249, CVE-2009-1890, CVE-2009-1891, CVE-2017-9798, CVE-2016-5387, CVE-2017-9788, CVE-2004-2343)
+	  which we actually don't even use.
       ]]></notes>
-      <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
-      <cve>CVE-2020-5397</cve>
-      <cve>CVE-2020-5398</cve>
-      <cve>CVE-2020-5421</cve>
-      <cve>CVE-2021-22118</cve>
+      <packageUrl regex="true">^pkg:maven/org\.apache\.geode/geode\-core@.*$</packageUrl>
+      <cpe>cpe:/a:apache:http_server</cpe>
    </suppress>
 </suppressions>
