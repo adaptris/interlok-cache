@@ -1,11 +1,11 @@
 ext {
   componentName='Interlok Cache/Apache Geode'
   componentDesc='Using Apache Geode as a cache provider within Interlok'
-  jacksonVersion='2.13.0'
+  jacksonVersion='2.13.1'
 }
 
 dependencies {
-  api ("org.apache.geode:geode-core:1.14.0") {
+  api ("org.apache.geode:geode-core:1.14.3") {
     exclude group: 'org.apache.shiro'
     exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
     exclude group: "com.fasterxml.jackson.core", module: "jackson-core"
@@ -67,6 +67,7 @@ publishing {
           pom.withXml {
             asNode().appendNode("name", componentName)
             asNode().appendNode("description", componentDesc)
+			asNode().appendNode("url", "https://interlok.adaptris.net/interlok-docs/#/")
             def properties = asNode().appendNode("properties")
             properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
