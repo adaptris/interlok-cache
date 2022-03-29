@@ -1,7 +1,7 @@
 ext {
-  componentName='Interlok Cache/Apache Geode'
-  componentDesc='Using Apache Geode as a cache provider within Interlok'
-  jacksonVersion='2.13.2'
+  componentName = 'Interlok Cache/Apache Geode'
+  componentDesc = 'Using Apache Geode as a cache provider within Interlok'
+  jacksonVersion = '2.13.2.20220324'
 }
 
 dependencies {
@@ -25,9 +25,11 @@ dependencies {
     exclude group: "org.slf4j", module: "slf4j-log4j12"
   }
   api ("commons-codec:commons-codec:1.15")
-  api ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-  api ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-  api ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+  // Dependency to platform/BOM
+  implementation (platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
+  api ("com.fasterxml.jackson.core:jackson-databind")
+  api ("com.fasterxml.jackson.core:jackson-core")
+  api ("com.fasterxml.jackson.core:jackson-annotations")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
