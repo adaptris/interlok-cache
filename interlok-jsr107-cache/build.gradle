@@ -1,6 +1,6 @@
 ext {
-  componentName='Interlok Cache/JSR107'
-  componentDesc='Using any JSR107 cache implementation as a cache provider within Interlok'
+  componentName = 'Interlok Cache/JSR107'
+  componentDesc = 'Using any JSR107 cache implementation as a cache provider within Interlok'
 }
 
 dependencies {

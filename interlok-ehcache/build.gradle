@@ -1,6 +1,6 @@
 ext {
-  componentName='Interlok Cache/EHCache'
-  componentDesc='Using ehcache 2.x as a cache provider within Interlok'
+  componentName = 'Interlok Cache/EHCache'
+  componentDesc = 'Using ehcache 2.x as a cache provider within Interlok'
 }
 
 dependencies {
