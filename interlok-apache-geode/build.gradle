@@ -17,7 +17,7 @@ dependencies {
     // Multiple CVE vulnerabilities before 5.3.14
     exclude group: "org.springframework", module: "spring-web"
   }
-  implementation ("org.jgroups:jgroups:4.2.4.Final")
+  implementation ("org.jgroups:jgroups:5.2.5.Final")
   implementation ("org.springframework:spring-web:5.3.22")
   api ("commons-beanutils:commons-beanutils:1.9.4")
   implementation ("org.apache.shiro:shiro-core:1.9.1") {
