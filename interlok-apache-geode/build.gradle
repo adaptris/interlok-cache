@@ -12,13 +12,13 @@ dependencies {
     exclude group: "com.fasterxml.jackson.core", module: "jackson-annotations"
     exclude group: "log4j", module: "log4j"
     exclude group: "junit", module: "junit"
-	// Multiple CVE vulnerabilities before 4.x
+    // Multiple CVE vulnerabilities before 4.x
     exclude group: "org.jgroups", module: "jgroups"
     // Multiple CVE vulnerabilities before 5.3.14
     exclude group: "org.springframework", module: "spring-web"
   }
   implementation ("org.jgroups:jgroups:4.2.4.Final")
-  implementation ("org.springframework:spring-web:5.3.23")
+  implementation ("org.springframework:spring-web:5.3.26")
   api ("commons-beanutils:commons-beanutils:1.9.4")
   implementation ("org.apache.shiro:shiro-core:1.11.0") {
     exclude group: "log4j", module: "log4j"
@@ -75,7 +75,7 @@ publishing {
           pom.withXml {
             asNode().appendNode("name", componentName)
             asNode().appendNode("description", componentDesc)
-			asNode().appendNode("url", "https://interlok.adaptris.net/interlok-docs/#/")
+            asNode().appendNode("url", "https://interlok.adaptris.net/interlok-docs/#/")
             def properties = asNode().appendNode("properties")
             properties.appendNode("target", "3.9.0+")
             properties.appendNode("license", "false")
