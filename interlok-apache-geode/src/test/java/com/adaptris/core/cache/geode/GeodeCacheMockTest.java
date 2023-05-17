@@ -1,21 +1,23 @@
 package com.adaptris.core.cache.geode;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
 import org.apache.geode.cache.client.ClientRegionFactory;
 import org.apache.geode.cache.client.ClientRegionShortcut;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.core.CoreException;
 
 public class GeodeCacheMockTest<testCacheInitWithFile> {
-  private Region objectRegion;
+  private Region<Object, Object> objectRegion;
   private DummyGeodeCache sut;
 
   private ClientCacheFactory createMock() {
@@ -85,7 +87,8 @@ public class GeodeCacheMockTest<testCacheInitWithFile> {
 
     @Override
     public void init() throws CoreException {
-      initialiseCache(this.clientCacheFactory);
+      initialiseCache(clientCacheFactory);
     }
   }
+
 }

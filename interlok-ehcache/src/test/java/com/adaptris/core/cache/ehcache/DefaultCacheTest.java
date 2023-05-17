@@ -1,17 +1,16 @@
 package com.adaptris.core.cache.ehcache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.util.TimeInterval;
 
 public class DefaultCacheTest extends EhcacheCacheCase {
-  @Override
-  public boolean isAnnotatedForJunit4() {
-    return true;
-  }
 
   @Test
   public void testSetCacheName() throws Exception {
@@ -22,8 +21,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     try {
       myCache.setCacheName(null);
       fail();
-    }
-    catch (IllegalArgumentException expected) {
+    } catch (IllegalArgumentException expected) {
 
     }
     assertEquals("name", myCache.getCacheName());
@@ -53,7 +51,7 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertEquals(0, myCache.maxElementsInMemory());
 
     myCache.setMaxElementsInMemory(Integer.valueOf(10));
-    assertEquals(new Integer(10), myCache.getMaxElementsInMemory());
+    assertEquals(Integer.valueOf(10), myCache.getMaxElementsInMemory());
     assertEquals(10, myCache.maxElementsInMemory());
 
     myCache.setMaxElementsInMemory(null);
@@ -94,7 +92,6 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     assertNull(myCache.getCacheCleanupInterval());
     assertEquals(-1, myCache.timeToLiveSeconds());
   }
-
 
   @Override
   protected DefaultEhcache createCacheInstance(boolean useEhcacheXml) throws Exception {

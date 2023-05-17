@@ -1,11 +1,12 @@
 package com.adaptris.core.cache.jcache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.core.util.LifecycleHelper;
 import com.adaptris.util.TimeInterval;
@@ -44,11 +45,11 @@ public abstract class Jsr107CacheCase {
     assertEquals("one", cache2.get("1"));
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void testGetKeys() throws Exception {
     Jsr107Cache cache = createCacheInstance(true);
     LifecycleHelper.initAndStart(cache);
-    cache.getKeys();
+    assertThrows(UnsupportedOperationException.class, () -> cache.getKeys());
   }
 
   @Test
@@ -58,18 +59,18 @@ public abstract class Jsr107CacheCase {
     cache.clear();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void testSize() throws Exception {
     Jsr107Cache cache = createCacheInstance(true);
     LifecycleHelper.initAndStart(cache);
-    cache.size();
+    assertThrows(UnsupportedOperationException.class, () -> cache.size());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testNotSerializable() throws Exception {
     Jsr107Cache cache = createCacheInstance(true);
     LifecycleHelper.initAndStart(cache);
-    cache.put("1", new Object());
+    assertThrows(IllegalArgumentException.class, () -> cache.put("1", new Object()));
   }
 
   protected void standardTests(Jsr107Cache cache) throws Exception {
