@@ -1,14 +1,16 @@
 package com.adaptris.core.cache.jcache;
 
 import java.util.concurrent.TimeUnit;
+
 import javax.cache.CacheManager;
-import javax.cache.configuration.Factory;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.Duration;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.ObjectUtils;
+
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.AutoPopulated;
 import com.adaptris.annotation.DisplayOrder;
@@ -19,13 +21,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * Configuration that will be used when no cache is found by {@link CacheManager#getCache(String, Class, Class)}.
- * 
+ *
  * @config jsr107-new-cache
  */
-@DisplayOrder(order =
-{
-    "expiration", "eventListener"
-})
+@DisplayOrder(order = { "expiration", "eventListener" })
 @XStreamAlias("jsr107-new-cache")
 public class NewCacheConfiguration {
   private static TimeInterval DEFAULT_EXPIRY = new TimeInterval(60L, TimeUnit.SECONDS);
@@ -75,29 +74,23 @@ public class NewCacheConfiguration {
   public MutableConfiguration<String, Object> configure(MutableConfiguration<String, Object> config) {
     config.addCacheEntryListenerConfiguration(getEventListener().configuration());
     final Duration duration = wrap(getExpiration());
-    config.setExpiryPolicyFactory(new Factory<ExpiryPolicy>() {
-
+    config.setExpiryPolicyFactory(() -> new ExpiryPolicy() {
       @Override
-      public ExpiryPolicy create() {
-        return new ExpiryPolicy() {
-          @Override
-          public Duration getExpiryForCreation() {
-            return duration;
-          }
-
-          @Override
-          public Duration getExpiryForAccess() {
-            return duration;
-          }
-
-          @Override
-          public Duration getExpiryForUpdate() {
-            return duration;
-          }
-        };
+      public Duration getExpiryForCreation() {
+        return duration;
       }
 
+      @Override
+      public Duration getExpiryForAccess() {
+        return duration;
+      }
+
+      @Override
+      public Duration getExpiryForUpdate() {
+        return duration;
+      }
     });
     return config;
   }
+
 }

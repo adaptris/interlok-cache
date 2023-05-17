@@ -13,8 +13,8 @@ import net.sf.ehcache.constructs.EhcacheDecoratorAdapter;
 /**
  * {@link EhcacheDecoratorAdapter} that adds a cleanup thread to the underlying cache.
  * <p>
- * This thread periodically calls {@link Ehcache#getKeysWithExpiryCheck()} in order to force a check for any expired entries. If any
- * are found, they will be expired at that point and any event listeners will receive notifications.
+ * This thread periodically calls {@link Ehcache#getKeysWithExpiryCheck()} in order to force a check for any expired entries. If any are
+ * found, they will be expired at that point and any event listeners will receive notifications.
  * </p>
  */
 class TimedExpirationCache extends EhcacheDecoratorAdapter {

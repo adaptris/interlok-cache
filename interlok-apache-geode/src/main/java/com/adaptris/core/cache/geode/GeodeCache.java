@@ -1,9 +1,11 @@
 package com.adaptris.core.cache.geode;
 
 import java.io.Serializable;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +13,7 @@ import org.apache.geode.cache.Region;
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
 import org.apache.geode.cache.client.ClientRegionShortcut;
+
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.AutoPopulated;
 import com.adaptris.annotation.DisplayOrder;
@@ -45,7 +48,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  */
 @XStreamAlias("geode-cache")
 @AdapterComponent
-@DisplayOrder(order = {"cacheFileName", "regionName", "clientRegionShortcut", "hostname", "port", "isDurable"})
+@DisplayOrder(order = { "cacheFileName", "regionName", "clientRegionShortcut", "hostname", "port", "isDurable" })
 public class GeodeCache implements Cache {
 
   @NotBlank
@@ -64,7 +67,6 @@ public class GeodeCache implements Cache {
   private transient ClientCache geodeCache;
   private transient Region<String, Object> geodeRegion;
 
-
   public GeodeCache() {
     setCacheBuilder(new ClientCacheFromFile());
   }
@@ -82,8 +84,8 @@ public class GeodeCache implements Cache {
     if (StringUtils.isBlank(getRegionName())) {
       throw new ServiceException("GeodeCache must have RegionName specified");
     }
-    this.geodeCache = getCacheBuilder().build(clientCacheFactory);
-    this.geodeRegion = geodeCache.<String, Object>createClientRegionFactory(clientRegionShortcut()).create(getRegionName());
+    geodeCache = getCacheBuilder().build(clientCacheFactory);
+    geodeRegion = geodeCache.<String, Object> createClientRegionFactory(clientRegionShortcut()).create(getRegionName());
   }
 
   @Override
@@ -128,7 +130,7 @@ public class GeodeCache implements Cache {
   // Getter and Setter
   // ------------------------------------------------------------------------
   protected Region<String, Object> getCache() {
-    return this.geodeRegion;
+    return geodeRegion;
   }
 
   public String getRegionName() {
@@ -152,7 +154,7 @@ public class GeodeCache implements Cache {
   }
 
   public Boolean getDurable() {
-    return this.durable;
+    return durable;
   }
 
   public void setDurable(Boolean durable) {
@@ -166,11 +168,10 @@ public class GeodeCache implements Cache {
   public ClientCacheBuilder getCacheBuilder() {
     return cacheBuilder;
   }
-  
+
   public void setCacheBuilder(ClientCacheBuilder cacheBuilder) {
     this.cacheBuilder = Args.notNull(cacheBuilder, "cache-builder");
   }
-  
 
   private static void closeQuietly(ClientCache cache, boolean keepAlive) {
     try {
@@ -180,4 +181,5 @@ public class GeodeCache implements Cache {
     } catch (Exception cce) {
     }
   }
+
 }

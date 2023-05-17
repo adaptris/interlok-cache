@@ -23,8 +23,8 @@ public class GeodeCacheMockTest<testCacheInitWithFile> {
   private ClientCacheFactory createMock() {
     ClientCacheFactory geodeCacheMock = mock(ClientCacheFactory.class);
     ClientCache clientCache = mock(ClientCache.class);
-    Region<String, Object> geodeRegionMock = mock(Region.class);
-    ClientRegionFactory crfMock = mock(ClientRegionFactory.class);
+    Region<Object, Object> geodeRegionMock = mock(Region.class);
+    ClientRegionFactory<Object, Object> crfMock = mock(ClientRegionFactory.class);
 
     // ClientCacheFactory set(String name, String value)
     when(geodeCacheMock.set(isA(String.class), isA(String.class))).thenReturn(geodeCacheMock);

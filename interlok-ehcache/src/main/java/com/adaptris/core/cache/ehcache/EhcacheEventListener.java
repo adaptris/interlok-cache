@@ -13,11 +13,11 @@ import net.sf.ehcache.event.CacheEventListener;
 
 /**
  * Implementation of {@link com.adaptris.core.cache.CacheEventListener} that proxies the Ehcache's own cache event notifications
- * 
+ *
  * @config ehcache-event-listener
- * 
+ *
  * @author stuellidge
- * 
+ *
  */
 @XStreamAlias("ehcache-event-listener")
 public class EhcacheEventListener implements CacheEventListener {
@@ -99,4 +99,5 @@ public class EhcacheEventListener implements CacheEventListener {
       addListener(l);
     }
   }
+
 }

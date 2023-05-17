@@ -23,7 +23,6 @@ import com.adaptris.core.util.ExceptionHelper;
 @SuppressWarnings("unchecked")
 public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
 
-
   @InputFieldDefault(value = "false")
   @AdvancedConfig
   private Boolean shutdownCacheManagerOnClose;
@@ -127,8 +126,8 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
   /**
    * Set the cache name.
    * <p>
-   * Set the cache name, if it does not exist then {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}
-   * will be used to create along with any configuration specified by {@link #getNewCacheConfiguration()}.
+   * Set the cache name, if it does not exist then {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)} will be
+   * used to create along with any configuration specified by {@link #getNewCacheConfiguration()}.
    * </p>
    *
    * @param name
@@ -145,7 +144,8 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
    * Set any configuration that needs to be applied to be caches that are created via
    * {@link CacheManager#createCache(String, javax.cache.configuration.Configuration)}.
    *
-   * @param newConfig any new configuration; default is null.
+   * @param newConfig
+   *          any new configuration; default is null.
    */
   public void setNewCacheConfiguration(NewCacheConfiguration newConfig) {
     newCacheConfiguration = newConfig;
@@ -165,7 +165,5 @@ public abstract class Jsr107Cache implements com.adaptris.core.cache.Cache {
     setShutdownCacheManagerOnClose(b);
     return (T) this;
   }
-
-
 
 }

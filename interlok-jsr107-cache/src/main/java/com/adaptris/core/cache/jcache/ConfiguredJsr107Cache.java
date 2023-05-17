@@ -1,12 +1,15 @@
 package com.adaptris.core.cache.jcache;
 
 import java.net.URI;
+
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.spi.CachingProvider;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.adaptris.annotation.AdvancedConfig;
 import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.annotation.InputFieldHint;
@@ -16,15 +19,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * {@link com.adaptris.core.cache.Cache} implementation that wraps a JSR107/JCache caching provider.
- * 
+ *
  * @config configured-jsr107-cache
  *
  */
 @XStreamAlias("configured-jsr107-cache")
-@DisplayOrder(order =
-{
-    "cacheName", "configurationUrl", "cacheProviderClassname", "shutdownCacheManagerOnClose"
-})
+@DisplayOrder(order = { "cacheName", "configurationUrl", "cacheProviderClassname", "shutdownCacheManagerOnClose" })
 public class ConfiguredJsr107Cache extends Jsr107Cache {
 
   private static final String EHCACHE3_PROVIDER = "org.ehcache.jsr107.EhcacheCachingProvider";
@@ -41,7 +41,7 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
     /**
      * Friendly name for {@code org.ehcache.jsr107.EhcacheCachingProvider}
      */
-    EHCACHE3(EHCACHE3_PROVIDER), 
+    EHCACHE3(EHCACHE3_PROVIDER),
     /**
      * Friendly name for {@code org.redisson.jcache.JCachingProvider}
      */
@@ -65,14 +65,14 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
     /**
      * Friendly name for {@code com.hazelcast.cache.HazelcastCachingProvider}
      */
-    HAZELCAST(HAZELCAST_PROVIDER);    
+    HAZELCAST(HAZELCAST_PROVIDER);
+
     private String myProviderClassname;
-    
+
     ProviderNames(String classname) {
-      this.myProviderClassname = classname;
+      myProviderClassname = classname;
     }
   }
-
 
   @AdvancedConfig
   @InputFieldHint(style = "com.adaptris.core.cache.jcache.ConfiguredJsr107Cache.ProviderNames")
@@ -82,10 +82,10 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
   private String configurationUrl;
 
   private transient Logger log = LoggerFactory.getLogger(this.getClass());
+
   public ConfiguredJsr107Cache() {
 
   }
-
 
   @Override
   protected CacheManager getCacheManager() throws CoreException {
@@ -117,8 +117,8 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
   /**
    * Set the cache provider classname.
    * <p>
-   * The cache provider classname varies from provider to provider, if you were going to use the reference implementation
-   * (not-recommended) then you would use {@code org.jsr107.ri.spi.RICachingProvider}. Some other providers might be
+   * The cache provider classname varies from provider to provider, if you were going to use the reference implementation (not-recommended)
+   * then you would use {@code org.jsr107.ri.spi.RICachingProvider}. Some other providers might be
    * <ul>
    * <li>Redis (via Redisson) {@code org.redisson:redisson:3.7.4} : org.redisson.jcache.JCachingProvider</li>
    * <li>Apache Ignite {@code org.apache.ignite:ignite-core:2.5.0} : org.apache.ignite.cache.CachingProvider</li>
@@ -129,14 +129,14 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
    * If you're unsure what the provider classname is, then open the provider jar, and look at the contents of the file
    * {@code META-INF/services/javax.cache.spi.CachingProvider}
    * </p>
-   * 
-   * @param classname the fully qualified class name; if not specified then {@link Caching#getCachingProvider()} will be used, which
-   *          could lead to unexpected results if multiple caching providers are available.
+   *
+   * @param classname
+   *          the fully qualified class name; if not specified then {@link Caching#getCachingProvider()} will be used, which could lead to
+   *          unexpected results if multiple caching providers are available.
    */
   public void setCacheProviderClassname(String classname) {
-    this.cacheProviderClassname = classname;
+    cacheProviderClassname = classname;
   }
-
 
   public String getConfigurationUrl() {
     return configurationUrl;
@@ -144,11 +144,12 @@ public class ConfiguredJsr107Cache extends Jsr107Cache {
 
   /**
    * Specify the required configuration URL.
-   * 
-   * @param url the url, if blank/null then the caching provider default will be used.
+   *
+   * @param url
+   *          the url, if blank/null then the caching provider default will be used.
    */
   public void setConfigurationUrl(String url) {
-    this.configurationUrl = url;
+    configurationUrl = url;
   }
 
   public ConfiguredJsr107Cache withConfigurationUrl(String url) {
