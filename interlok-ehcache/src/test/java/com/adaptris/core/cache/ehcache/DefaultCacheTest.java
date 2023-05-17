@@ -103,9 +103,4 @@ public class DefaultCacheTest extends EhcacheCacheCase {
     return new DefaultEhcache();
   }
 
-  @Override
-  protected Object retrieveObjectForSampleConfig() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 }
