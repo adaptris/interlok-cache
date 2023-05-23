@@ -27,27 +27,28 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
     PUT() {
       @Override
       void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
-        l.itemPut(e.getKey().toString(),e.getValue());
+        l.itemPut(e.getKey().toString(), e.getValue());
       }
     },
     EXPIRED() {
       @Override
       void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
-        l.itemExpired(e.getKey().toString(),e.getValue());
+        l.itemExpired(e.getKey().toString(), e.getValue());
       }
     },
     REMOVED() {
       @Override
       void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
-        l.itemRemoved(e.getKey().toString(),e.getValue());
+        l.itemRemoved(e.getKey().toString(), e.getValue());
       }
     },
     UPDATED() {
       @Override
       void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e) {
-        l.itemUpdated(e.getKey().toString(),e.getValue());
+        l.itemUpdated(e.getKey().toString(), e.getValue());
       }
     };
+
     abstract void notify(CacheEventListener l, CacheEntryEvent<? extends String, ? extends Object> e);
   }
 
@@ -64,7 +65,6 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
   public boolean removeListener(CacheEventListener listener) {
     return listeners.remove(listener);
   }
-
 
   public Set<CacheEventListener> getListeners() {
     return listeners;
@@ -106,9 +106,8 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
     return new MutableCacheEntryListenerConfiguration<>(this, null, true, true);
   }
 
-  private void sendNotifications(final CacheNotification notifier,
-      Iterable<CacheEntryEvent<? extends String, ? extends Object>> events)
-          throws CacheEntryListenerException {
+  private void sendNotifications(final CacheNotification notifier, Iterable<CacheEntryEvent<? extends String, ? extends Object>> events)
+      throws CacheEntryListenerException {
     try {
       events.forEach(e -> {
         listeners.forEach(l -> {
@@ -131,4 +130,5 @@ public class DefaultEventListener implements AllEventListener, Factory<CacheEntr
   public CacheEntryListener<String, Object> create() {
     return this;
   }
+
 }

@@ -13,15 +13,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * Note that if you have multiple JSR107 providers available, then this might have unexpected behaviours; generally you should use
  * {@link ConfiguredJsr107Cache} instead.
  * </p>
- * 
+ *
  * @config basic-jsr107-cache
  *
  */
 @XStreamAlias("basic-jsr107-cache")
-@DisplayOrder(order =
-{
-    "cacheName", "shutdownCacheManagerOnClose"
-})
+@DisplayOrder(order = { "cacheName", "shutdownCacheManagerOnClose" })
 public class BasicJsr107Cache extends Jsr107Cache {
 
   @Override

@@ -1,13 +1,13 @@
 package com.adaptris.core.cache.jcache;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.core.CoreException;
 import com.adaptris.core.stubs.TempFileUtils;
@@ -40,7 +40,6 @@ public class ConfigHelperTest extends ConfigHelper {
     assertNotNull(Builder.ViaURL.build("./build.gradle"));
     assertNotNull(Builder.ViaURL.build("http://localhost:80/1/2/3/4"));
   }
-
 
   @Test
   public void testAsURI() throws Exception {

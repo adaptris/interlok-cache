@@ -1,20 +1,21 @@
 package com.adaptris.core.cache.ehcache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.util.TimeInterval;
+
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Status;
 
 public class EhcacheFromXmlTest extends EhcacheFromConfigCase {
-  @Override
-  public boolean isAnnotatedForJunit4() {
-    return true;
-  }
+
   @Test
   public void testSetCacheConfigurationFile() throws Exception {
     EhcacheFromFile myCache = createCacheInstance();
@@ -24,8 +25,7 @@ public class EhcacheFromXmlTest extends EhcacheFromConfigCase {
     try {
       myCache.setXmlConfigurationFilename(null);
       fail();
-    }
-    catch (IllegalArgumentException expected) {
+    } catch (IllegalArgumentException expected) {
 
     }
     assertEquals("a filename", myCache.getXmlConfigurationFilename());

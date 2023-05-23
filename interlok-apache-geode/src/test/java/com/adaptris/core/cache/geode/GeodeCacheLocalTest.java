@@ -1,17 +1,18 @@
 package com.adaptris.core.cache.geode;
 
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.apache.geode.cache.client.ClientRegionShortcut;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GeodeCacheLocalTest {
 
   private GeodeCache cache;
 
-  @Before
+  @BeforeEach
   public void setup() throws Exception {
     cache = new GeodeCache();
     cache.setRegionName("region1");
@@ -57,14 +58,15 @@ public class GeodeCacheLocalTest {
 
   @Test
   public void testAddingObjectValue() throws Exception {
-    cache.put("key1", new Integer(12));
-    cache.put("key2", new Integer(13));
+    cache.put("key1", Integer.valueOf(12));
+    cache.put("key2", Integer.valueOf(13));
     assertEquals(2, cache.size());
     assertEquals(13, cache.get("key2"));
   }
 
-  @After
+  @AfterEach
   public void teardown() throws Exception {
     cache.close();
   }
+
 }

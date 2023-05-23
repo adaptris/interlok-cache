@@ -63,8 +63,8 @@ subprojects {
   apply plugin: 'com.github.spotbugs'
   apply plugin: 'org.owasp.dependencycheck'
 
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
   group   = 'com.adaptris'
   version = releaseVersion
   def versionDir = "$buildDir/version"
@@ -129,7 +129,7 @@ subprojects {
     annotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
     umlDoclet("nl.talsmasoftware:umldoclet:1.1.4")
 
-    testImplementation ('junit:junit:4.13.2')
+    testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.9.3")
     testImplementation ("org.slf4j:slf4j-simple:$slf4jVersion")
     testImplementation ("com.adaptris:interlok-stubs:$interlokCoreVersion") { changing= true }
 
@@ -233,6 +233,10 @@ subprojects {
       options.addStringOption "umlIncludeProtectedInnerClasses","false"
       title= project.name
     }
+  }
+  
+  test {
+    useJUnitPlatform()
   }
 
   spotbugsMain {
