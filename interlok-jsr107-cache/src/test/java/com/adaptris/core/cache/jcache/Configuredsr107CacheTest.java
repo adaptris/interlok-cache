@@ -1,6 +1,6 @@
 package com.adaptris.core.cache.jcache;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.util.GuidGenerator;
 
@@ -33,4 +33,5 @@ public class Configuredsr107CacheTest extends Jsr107CacheCase {
         .withCacheName(uniqueCacheName ? new GuidGenerator().safeUUID() : ConfiguredJsr107Cache.class.getSimpleName());
     return cache;
   }
+
 }

@@ -1,17 +1,19 @@
 package com.adaptris.core.cache.geode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.apache.geode.cache.client.ClientRegionShortcut;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.core.ServiceException;
 
 public class GeodeCacheBasicTest {
   GeodeCache sut;
 
-  @Before
+  @BeforeEach
   public void init() {
     sut = new GeodeCache();
   }
@@ -60,4 +62,5 @@ public class GeodeCacheBasicTest {
     cache.init();
     cache.close();
   }
+
 }

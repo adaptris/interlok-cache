@@ -1,13 +1,16 @@
 package com.adaptris.core.cache.ehcache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
-import com.adaptris.core.BaseCase;
+
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.core.cache.CacheEventListener;
+import com.adaptris.interlok.junit.scaffolding.BaseCase;
 import com.adaptris.util.TimeInterval;
 
 public abstract class EhcacheCacheCase extends BaseCase {
@@ -39,8 +42,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       // What happens now?
       cache2.put("three", "3");
       cache2.put("four", "4");
-    }
-    finally {
+    } finally {
       stop(cache1);
       stop(cache2);
     }
@@ -76,8 +78,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertEquals(6, listener.putItems);
       assertEquals(1, listener.evictedItems);
       cache.getEventListener().removeListener(listener);
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -106,8 +107,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertEquals(1, listener.updatedItems);
       cache.getEventListener().removeListener(listener);
 
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -135,8 +135,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertEquals(5, cache.size());
       cache.clear();
       assertEquals(0, cache.size());
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -167,8 +166,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertEquals("5", cache.get("five"));
       assertNull(cache.get("XXX"));
       assertEquals(5, cache.size());
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -206,12 +204,11 @@ public abstract class EhcacheCacheCase extends BaseCase {
       // So technically we have attempted to remove 4 items, even though one
       // of them doesn't exist.
       assertEquals(4, listener.removedItems);
-      assertTrue("Should contain five", cache.getKeys().contains("five"));
-      assertTrue("Should contain four", cache.getKeys().contains("four"));
+      assertTrue(cache.getKeys().contains("five"), "Should contain five");
+      assertTrue(cache.getKeys().contains("four"), "Should contain four");
       cache.getEventListener().removeListener(listener);
 
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -238,13 +235,12 @@ public abstract class EhcacheCacheCase extends BaseCase {
       cache.put("five", "5");
 
       assertEquals(5, cache.size());
-      assertTrue("Should contain five", cache.getKeys().contains("five"));
-      assertTrue("Should contain four", cache.getKeys().contains("four"));
-      assertTrue("Should contain three", cache.getKeys().contains("three"));
-      assertTrue("Should contain two", cache.getKeys().contains("two"));
-      assertTrue("Should contain one", cache.getKeys().contains("one"));
-    }
-    finally {
+      assertTrue(cache.getKeys().contains("five"), "Should contain five");
+      assertTrue(cache.getKeys().contains("four"), "Should contain four");
+      assertTrue(cache.getKeys().contains("three"), "Should contain three");
+      assertTrue(cache.getKeys().contains("two"), "Should contain two");
+      assertTrue(cache.getKeys().contains("one"), "Should contain one");
+    } finally {
       stop(cache);
     }
   }
@@ -275,8 +271,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertEquals(5, listener.putItems);
       assertEquals(0, removedListener.putItems);
       cache.getEventListener().removeListener(listener);
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }
@@ -318,8 +313,7 @@ public abstract class EhcacheCacheCase extends BaseCase {
       assertNull(cache.get(key4));
       assertNull(cache.get(key5));
       cache.getEventListener().removeListener(listener);
-    }
-    finally {
+    } finally {
       stop(cache);
     }
   }

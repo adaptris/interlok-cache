@@ -18,16 +18,16 @@ import net.sf.ehcache.config.CacheConfiguration;
 /**
  * Implementation of {@link com.adaptris.core.cache.Cache} based on Ehcache.
  * <p>
- * By default this uses the {@link CacheManager#create()} to create the cache manager which will end up using the default XML
- * configuration (ehcache.xml or ehcache-failsafe.xml). In the event that the cache manager does not contain a cache that matches
- * the name {@link #getCacheName()}, then a new basic one will be implemented based on the additional parameters that are
- * configured. If the cache already exists, then it is used as is, without any additional configuration.
+ * By default this uses the {@link CacheManager#create()} to create the cache manager which will end up using the default XML configuration
+ * (ehcache.xml or ehcache-failsafe.xml). In the event that the cache manager does not contain a cache that matches the name
+ * {@link #getCacheName()}, then a new basic one will be implemented based on the additional parameters that are configured. If the cache
+ * already exists, then it is used as is, without any additional configuration.
  * </p>
- * 
+ *
  * @config default-ehcache
  */
 @XStreamAlias("default-ehcache")
-@DisplayOrder(order ={"cacheName", "evictionPolicy", "maxElementsInMemory"})
+@DisplayOrder(order = { "cacheName", "evictionPolicy", "maxElementsInMemory" })
 @SuppressWarnings("unchecked")
 public class DefaultEhcache extends EhcacheCache {
 
@@ -89,10 +89,10 @@ public class DefaultEhcache extends EhcacheCache {
   }
 
   /**
-   * Sets a maximum number of elements to be held in memory. For a memory only cache, this is the maximum number of elements in
-   * total
-   * 
-   * @param maxElementsInMemory default is 0 (unlimited).
+   * Sets a maximum number of elements to be held in memory. For a memory only cache, this is the maximum number of elements in total
+   *
+   * @param maxElementsInMemory
+   *          default is 0 (unlimited).
    */
   public void setMaxElementsInMemory(Integer maxElementsInMemory) {
     this.maxElementsInMemory = maxElementsInMemory;
@@ -118,7 +118,8 @@ public class DefaultEhcache extends EhcacheCache {
   /**
    * Sets the time to live for each item put into the cache. They will be evicted at some stage after this time has expired.
    *
-   * @param interval the time
+   * @param interval
+   *          the time
    */
   public void setTimeToLive(TimeInterval interval) {
     timeToLive = interval;
@@ -136,7 +137,8 @@ public class DefaultEhcache extends EhcacheCache {
   /**
    * Sets the time before an object in the cache expires if it is not accessed
    *
-   * @param interval the time
+   * @param interval
+   *          the time
    */
   public void setTimeToIdle(TimeInterval interval) {
     timeToIdle = interval;
@@ -166,4 +168,5 @@ public class DefaultEhcache extends EhcacheCache {
     setTimeToLive(f);
     return (T) this;
   }
+
 }

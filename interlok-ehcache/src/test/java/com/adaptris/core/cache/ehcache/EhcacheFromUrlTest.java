@@ -1,21 +1,20 @@
 package com.adaptris.core.cache.ehcache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
 import com.adaptris.util.TimeInterval;
 
 public class EhcacheFromUrlTest extends EhcacheFromConfigCase {
-  @Override
-  public boolean isAnnotatedForJunit4() {
-    return true;
-  }
 
   @Test
   public void testSetCacheConfigurationURL() throws Exception {
@@ -26,8 +25,7 @@ public class EhcacheFromUrlTest extends EhcacheFromConfigCase {
     try {
       myCache.setConfigurationUrl(null);
       fail();
-    }
-    catch (IllegalArgumentException expected) {
+    } catch (IllegalArgumentException expected) {
 
     }
     assertEquals("http://my.server.com/path/to/ehcache.xml", myCache.getConfigurationUrl());
@@ -68,4 +66,5 @@ public class EhcacheFromUrlTest extends EhcacheFromConfigCase {
     File f = new File(path);
     return f.toURI().toURL();
   }
+
 }

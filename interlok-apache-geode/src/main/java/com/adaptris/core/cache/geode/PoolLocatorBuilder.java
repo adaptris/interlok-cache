@@ -2,13 +2,14 @@ package com.adaptris.core.cache.geode;
 
 import org.apache.geode.cache.client.ClientCache;
 import org.apache.geode.cache.client.ClientCacheFactory;
+
 import com.adaptris.annotation.InputFieldDefault;
 import com.adaptris.util.NumberUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * Uses {@link ClientCacheFactory#addPoolLocator(String, int)} to build a client cache.
- * 
+ *
  * @config "geode-client-cache-from-pool-locator"
  */
 @XStreamAlias("geode-client-cache-from-pool-locator")
@@ -51,4 +52,5 @@ public class PoolLocatorBuilder implements ClientCacheBuilder {
   private int port() {
     return NumberUtils.toIntDefaultIfNull(getPort(), 10334);
   }
+
 }

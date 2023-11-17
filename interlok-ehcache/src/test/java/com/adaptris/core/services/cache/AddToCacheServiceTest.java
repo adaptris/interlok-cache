@@ -1,17 +1,16 @@
 package com.adaptris.core.services.cache;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.jms.JMSException;
 import javax.jms.Queue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.adaptris.core.AdaptrisMessage;
 import com.adaptris.core.AdaptrisMessageFactory;
@@ -27,20 +26,11 @@ public class AddToCacheServiceTest {
   private static final String QUEUE_NAME = "TempReplyQueue";
   private static final String CORRELATION_ID = "12345ABCDE";
 
-  private static final String SRC_KEY = "srcKey";
-  private static final String SRC_VALUE = "srcValue";
-
-
   @Test
   public void testDoService_CacheManagerShutdown() throws Exception {
-    AdaptrisMessage msg1 = createMessage("Hello World", Arrays.asList(new MetadataElement[]
-    {
-      new MetadataElement(JmsConstants.JMS_CORRELATION_ID, CORRELATION_ID)
-    }));
-    AdaptrisMessage msg2 = createMessage("Hello World", Arrays.asList(new MetadataElement[]
-    {
-      new MetadataElement(JmsConstants.JMS_CORRELATION_ID, "ABCDEFG")
-    }));
+    AdaptrisMessage msg1 = createMessage("Hello World",
+        Arrays.asList(new MetadataElement(JmsConstants.JMS_CORRELATION_ID, CORRELATION_ID)));
+    AdaptrisMessage msg2 = createMessage("Hello World", Arrays.asList(new MetadataElement(JmsConstants.JMS_CORRELATION_ID, "ABCDEFG")));
     DefaultEhcache cache1 = createCacheInstanceForTests();
     DefaultEhcache cache2 = createCacheInstanceForTests();
     cache2.setCacheName(cache1.getCacheName());
@@ -59,10 +49,9 @@ public class AddToCacheServiceTest {
       // At this point the "singleton" ehcache Manager is shutdown; service2 doService should be fine.
       service2.doService(msg2);
       Object value = cache2.get("ABCDEFG");
-      assertTrue("Cached object should be a JMS Queue", value instanceof Queue);
+      assertTrue(value instanceof Queue, "Cached object should be a JMS Queue");
       assertEquals(QUEUE_NAME, ((Queue) value).getQueueName());
-    }
-    finally {
+    } finally {
       LifecycleHelper.stopAndClose(service1);
       LifecycleHelper.stopAndClose(service2);
     }
@@ -84,12 +73,7 @@ public class AddToCacheServiceTest {
     for (MetadataElement element : metadata) {
       msg.addMetadata(element);
     }
-    msg.getObjectHeaders().put(JmsConstants.OBJ_JMS_REPLY_TO_KEY, new Queue() {
-      @Override
-      public String getQueueName() throws JMSException {
-        return QUEUE_NAME;
-      }
-    });
+    msg.getObjectHeaders().put(JmsConstants.OBJ_JMS_REPLY_TO_KEY, (Queue) () -> QUEUE_NAME);
     return msg;
   }
 
