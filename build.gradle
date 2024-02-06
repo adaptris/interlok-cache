@@ -1,7 +1,9 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
-  id 'com.github.spotbugs' version '5.2.0' apply false
-  id 'org.owasp.dependencycheck' version '8.4.0' apply false
+  id "com.github.spotbugs" version "6.0.6" apply false
+  id "org.sonarqube" version "4.4.1.3373"
+  id "org.owasp.dependencycheck" version "9.0.8" apply false
 }
 
 ext {
@@ -18,7 +20,7 @@ ext {
   offlineJavadocPackageDir = new File(project.buildDir, "offline-javadoc-packages")
 
   organizationName = "Adaptris Ltd"
-  slf4jVersion = '2.0.9'
+  slf4jVersion = '2.0.11'
   mockitoVersion = '5.2.0'
 }
 
@@ -59,33 +61,43 @@ task clean(type: Delete) {
   delete project.buildDir
 }
 
+sonar {
+  properties {
+    property "sonar.projectKey", "adaptris_interlok-cache"
+    property "sonar.organization", "adaptris-org"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
+
+allprojects {
+  tasks.withType(Jar) {
+    metaInf {
+      from ("$rootDir") {
+        include 'LICENSE*'
+        include 'NOTICE*'
+      }
+    }
+  }
+  tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+  }
+}
+
 subprojects {
   // Apply the java plugin to add support for Java
-  apply plugin: 'java-library'
-  apply plugin: 'maven-publish'
+  apply plugin: "java-library"
+  apply plugin: "maven-publish"
   apply plugin: "jacoco"
-  apply plugin: 'com.github.spotbugs'
-  apply plugin: 'org.owasp.dependencycheck'
+  apply plugin: "com.github.spotbugs"
+  apply plugin: "org.sonarqube"
+  apply plugin: "org.owasp.dependencycheck"
 
   sourceCompatibility = JavaVersion.VERSION_17
   targetCompatibility = JavaVersion.VERSION_17
+
   group   = 'com.adaptris'
   version = releaseVersion
   def versionDir = "$buildDir/version"
-
-  allprojects {
-    tasks.withType(Jar) {
-      metaInf {
-        from ("$rootDir") {
-          include 'LICENSE*'
-          include 'NOTICE*'
-        }
-      }
-    }
-    tasks.withType(GenerateModuleMetadata) {
-      enabled = false
-    }
-  }
 
   repositories {
     mavenCentral()
@@ -133,7 +145,7 @@ subprojects {
     annotationProcessor ("com.adaptris:interlok-core-apt:$interlokCoreVersion") {changing= true}
     umlDoclet("nl.talsmasoftware:umldoclet:2.1.0")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     testImplementation ("org.slf4j:slf4j-simple:$slf4jVersion")
     testImplementation ("com.adaptris:interlok-stubs:$interlokCoreVersion") { changing= true }
 
@@ -234,8 +246,8 @@ subprojects {
   }
 
   spotbugsMain {
-    effort = "max"
-    reportLevel = "high"
+    effort = com.github.spotbugs.snom.Effort.valueOf("MAX")
+    reportLevel = com.github.spotbugs.snom.Confidence.valueOf("HIGH")
     reports {
       xml {
         required.set(false)
