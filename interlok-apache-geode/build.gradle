@@ -20,7 +20,7 @@ dependencies {
   implementation ("org.jgroups:jgroups:5.3.7.Final")
   implementation ("org.springframework:spring-web:5.3.33")
   api ("commons-beanutils:commons-beanutils:1.9.4")
-  implementation ("org.apache.shiro:shiro-core:1.13.0") {
+  implementation ("org.apache.shiro:shiro-core:2.0.1") {
     exclude group: "log4j", module: "log4j"
     exclude group: "org.slf4j", module: "slf4j-log4j12"
   }
