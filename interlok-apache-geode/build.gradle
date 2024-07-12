@@ -1,7 +1,7 @@
 ext {
   componentName = 'Interlok Cache/Apache Geode'
   componentDesc = 'Using Apache Geode as a cache provider within Interlok'
-  jacksonVersion = '2.17.1'
+  jacksonVersion = '2.17.2'
 }
 
 dependencies {
@@ -17,7 +17,7 @@ dependencies {
     // Multiple CVE vulnerabilities before 5.3.14
     exclude group: "org.springframework", module: "spring-web"
   }
-  implementation ("org.jgroups:jgroups:5.3.7.Final")
+  implementation ("org.jgroups:jgroups:5.3.8.Final")
   implementation ("org.springframework:spring-web:5.3.33")
   api ("commons-beanutils:commons-beanutils:1.9.4")
   implementation ("org.apache.shiro:shiro-core:1.13.0") {
