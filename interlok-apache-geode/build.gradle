@@ -24,7 +24,7 @@ dependencies {
     exclude group: "log4j", module: "log4j"
     exclude group: "org.slf4j", module: "slf4j-log4j12"
   }
-  api ("commons-codec:commons-codec:1.17.0")
+  api ("commons-codec:commons-codec:1.17.1")
   // Dependency to platform/BOM
   api (platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
   api ("com.fasterxml.jackson.core:jackson-databind")
