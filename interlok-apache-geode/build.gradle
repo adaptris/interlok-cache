@@ -1,7 +1,7 @@
 ext {
   componentName = 'Interlok Cache/Apache Geode'
   componentDesc = 'Using Apache Geode as a cache provider within Interlok'
-  jacksonVersion = '2.17.2'
+  jacksonVersion = '2.18.0'
 }
 
 dependencies {
