@@ -1,7 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 plugins {
   id 'com.github.spotbugs' version '6.1.13' apply false
-  id 'org.owasp.dependencycheck' version '9.0.10' apply false
+  id 'org.owasp.dependencycheck' version '12.1.1' apply false
 }
 
 ext {
@@ -253,7 +253,12 @@ subprojects {
     junitFailOnCVSS = 7.0
     analyzers {
       assemblyEnabled=false
-      knownExploitedURL=project.findProperty('dependencyCheckKnownExploitedURL')
+      kev { url = project.findProperty('dependencyCheckKnownExploitedURL') }
+    }
+	nvd {
+      apiKey = System.getenv("NVD_API_KEY")
+      delay=project.findProperty("dependencyCheckNvdDelay")
+      datafeedUrl=project.findProperty("dependencyCheckNvdDatafeedUrl")
     }
   }
 
