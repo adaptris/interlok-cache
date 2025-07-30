@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.jms.Queue;
+import jakarta.jms.Queue;
 
 import org.junit.jupiter.api.Test;
 

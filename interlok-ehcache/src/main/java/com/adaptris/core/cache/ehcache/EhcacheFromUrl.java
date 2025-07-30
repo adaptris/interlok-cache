@@ -3,7 +3,7 @@ package com.adaptris.core.cache.ehcache;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.core.util.Args;
