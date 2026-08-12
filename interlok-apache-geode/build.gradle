@@ -1,7 +1,7 @@
 ext {
   componentName = 'Interlok Cache/Apache Geode'
   componentDesc = 'Using Apache Geode as a cache provider within Interlok'
-  jacksonVersion = '2.21.3'
+  jacksonVersion = '2.22.1'
 }
 
 dependencies {
@@ -24,7 +24,7 @@ dependencies {
     exclude group: "log4j", module: "log4j"
     exclude group: "org.slf4j", module: "slf4j-log4j12"
   }
-  api ("commons-codec:commons-codec:1.22.0")
+  api ("commons-codec:commons-codec:1.22.1")
   // Dependency to platform/BOM
   api (platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
   api ("com.fasterxml.jackson.core:jackson-databind")
