@@ -78,20 +78,20 @@
    </suppress>
    <suppress>
       <notes><![CDATA[
-      Apache Geode integration in this repo pins Apache Shiro 2.1.0.
-      Suppress until a compatible Shiro upgrade is planned for this release line.
+      Shiro 2.2.1 is the latest 2.x release in Maven Central. CVE-2026-58301 is fixed
+      only in 3.0.1, outside the minor/patch upgrade scope. The advisory affects
+      shiro-jakarta-ee integration, which this cache integration does not include.
+      Revisit when a major Shiro upgrade is permitted.
       ]]></notes>
-      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro(\.crypto)?/shiro\-.*@2\.1\.0$</packageUrl>
-      <cve>CVE-2026-43827</cve>
-      <cve>CVE-2026-43828</cve>
-      <cve>CVE-2026-44598</cve>
-      <cve>CVE-2026-48589</cve>
-      <cve>CVE-2026-49268</cve>
+      <packageUrl regex="true">^pkg:maven/org\.apache\.shiro(\.crypto)?/shiro\-.*@2\.2\.1$</packageUrl>
+      <cve>CVE-2026-58301</cve>
    </suppress>
    <suppress>
       <notes><![CDATA[
-      Spring Framework remains pinned to 5.3.39 for Interlok 5 on Java 17.
-      Remediation for these CVEs requires a major Spring 6 migration.
+      Spring Framework 5.3.39 is the latest public 5.x release in Maven Central.
+      Patched 5.3.x releases require commercial access; no public minor/patch upgrade
+      is available. Retain these release exceptions until a patched 5.x release
+      becomes available or a major Spring migration is permitted.
       ]]></notes>
       <packageUrl regex="true">^pkg:maven/org\.springframework/spring-(beans|core|jcl|web)@5\.3\.39$</packageUrl>
       <cve>CVE-2026-41838</cve>
@@ -111,5 +111,50 @@
       <cve>CVE-2026-41852</cve>
       <cve>CVE-2026-41853</cve>
       <cve>CVE-2026-41855</cve>
+      <cve>CVE-2024-38828</cve>
+      <cve>CVE-2025-41242</cve>
+      <cve>CVE-2025-41249</cve>
+      <cve>CVE-2026-47884</cve>
+      <cve>CVE-2026-47886</cve>
+      <cve>CVE-2026-47887</cve>
+      <cve>CVE-2026-47888</cve>
+      <cve>CVE-2026-47891</cve>
+      <cve>CVE-2026-47892</cve>
+      <cve>CVE-2026-47893</cve>
+      <cve>CVE-2026-59280</cve>
+      <cve>CVE-2026-59281</cve>
+      <cve>CVE-2026-59282</cve>
+      <cve>CVE-2026-59283</cve>
+      <cve>CVE-2026-59313</cve>
+      <cve>CVE-2026-59314</cve>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      CVE-2025-41234 is a false positive for Spring 5.3.39: the vendor advisory
+      lists only 6.0.5-6.0.28, 6.1.0-6.1.20 and 6.2.0-6.2.7 as affected.
+      https://spring.io/security/cve-2025-41234
+      ]]></notes>
+      <packageUrl regex="true">^pkg:maven/org\.springframework/spring-(core|web)@5\.3\.39$</packageUrl>
+      <cve>CVE-2025-41234</cve>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      HdrHistogram 2.2.2 is the latest release in Maven Central and both advisories
+      affect versions through 2.2.2. No released minor/patch fix is available.
+      These disputed local-attack findings remain release exceptions, not fixes.
+      Revisit when a patched release becomes available.
+      ]]></notes>
+      <packageUrl>pkg:maven/org.hdrhistogram/HdrHistogram@2.2.2</packageUrl>
+      <cve>CVE-2026-14683</cve>
+      <cve>CVE-2026-14686</cve>
+   </suppress>
+   <suppress>
+      <notes><![CDATA[
+      LatencyUtils 2.0.3 is the latest release in Maven Central and is affected by
+      this local-attack finding. No released minor/patch fix is available.
+      Retain as a release exception and revisit when a patched release is published.
+      ]]></notes>
+      <packageUrl>pkg:maven/org.latencyutils/LatencyUtils@2.0.3</packageUrl>
+      <cve>CVE-2026-82596</cve>
    </suppress>
 </suppressions>
