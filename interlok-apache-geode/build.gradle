@@ -20,7 +20,7 @@ dependencies {
   implementation ("org.jgroups:jgroups:5.4.6.Final")
   implementation ("org.springframework:spring-web:5.3.39")
   api ("commons-beanutils:commons-beanutils:1.11.0")
-  implementation ("org.apache.shiro:shiro-core:2.1.0") {
+  implementation ("org.apache.shiro:shiro-core:2.2.1") {
     exclude group: "log4j", module: "log4j"
     exclude group: "org.slf4j", module: "slf4j-log4j12"
   }
@@ -30,6 +30,14 @@ dependencies {
   api ("com.fasterxml.jackson.core:jackson-databind")
   api ("com.fasterxml.jackson.core:jackson-core")
   api ("com.fasterxml.jackson.core:jackson-annotations")
+  constraints {
+    api ("io.micrometer:micrometer-core:1.16.7") {
+      because "Fix CVE-2026-40984, CVE-2026-59295 and CVE-2026-59296 in Geode's transitive dependency"
+    }
+    api ("org.apache.logging.log4j:log4j-api:2.25.5") {
+      because "Fix CVE-2026-49844 in Geode's transitive dependency"
+    }
+  }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
