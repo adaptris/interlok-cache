@@ -31,7 +31,7 @@ dependencies {
   api ("com.fasterxml.jackson.core:jackson-core")
   api ("com.fasterxml.jackson.core:jackson-annotations")
   constraints {
-    api ("io.micrometer:micrometer-core:1.17.1") {
+    api ("io.micrometer:micrometer-core:1.17.2") {
       because "Fix CVE-2026-40984, CVE-2026-59295 and CVE-2026-59296 in Geode's transitive dependency"
     }
     api ("org.apache.logging.log4j:log4j-api:2.25.5") {
