@@ -4,7 +4,8 @@ ext {
 }
 
 dependencies {
-  api ("net.sf.ehcache:ehcache:2.10.9.2")
+  api platform(interlokCatalogPlatform)
+  api ("net.sf.ehcache:ehcache")
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
